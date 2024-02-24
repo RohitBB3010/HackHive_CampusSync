@@ -51,9 +51,8 @@ class UserType extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     context.read<AuthCubit>().setUserType('authority');
-                    navigatorKey.currentState?.push(MaterialPageRoute(
-                        builder: (context) =>
-                            const App(userType: 'authority')));
+                    navigatorKey.currentState?.push(
+                        MaterialPageRoute(builder: (context) => const App()));
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
@@ -66,9 +65,8 @@ class UserType extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     context.read<AuthCubit>().setUserType('committee');
-                    navigatorKey.currentState?.push(MaterialPageRoute(
-                        builder: (context) =>
-                            const App(userType: 'committee')));
+                    navigatorKey.currentState?.push(
+                        MaterialPageRoute(builder: (context) => const App()));
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
@@ -81,8 +79,8 @@ class UserType extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     context.read<AuthCubit>().setUserType('student');
-                    navigatorKey.currentState?.push(MaterialPageRoute(
-                        builder: (context) => const App(userType: 'student')));
+                    navigatorKey.currentState?.push(
+                        MaterialPageRoute(builder: (context) => const App()));
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
@@ -102,8 +100,7 @@ class UserType extends StatelessWidget {
   Widget userTypeCard(BuildContext context, String role) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => App(userType: role)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => App()));
       },
       child: Container(
           width: MediaQuery.of(context).size.width * 0.3,

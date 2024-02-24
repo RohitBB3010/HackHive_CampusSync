@@ -32,8 +32,8 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void setUserType(String userType) {
-    final userTypeValue = userTypeFormz.dirty(userType);
+  void setUserType(String? userType) {
+    final userTypeValue = userTypeFormz.dirty(userType != null ? userType : '');
     debugPrint('IN set function : $userTypeValue');
     emit((state as AuthUnauthenticatedState).copyWith(userType: userTypeValue));
   }

@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
     return SafeArea(
       child: Center(
         child: Scaffold(
-          body: buildBlocConsumedAuthView(const LoginForm()),
+          body: buildBlocConsumedAuthView(LoginForm()),
         ),
       ),
     );
@@ -69,7 +69,7 @@ Widget buildBlocConsumedAuthView(Widget authView) {
 Widget buildNonUnauthenticatedView(AuthState state) {
   if (state is AuthUnauthenticatedState) {
     debugPrint('$state');
-    return const LoginForm();
+    return LoginForm();
   } else if (state is EmailSignInState) {
     debugPrint('$state');
     return const SignInForm();

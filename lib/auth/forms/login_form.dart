@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
+import 'package:campus_sync/components/customDropDown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/consts/empty_spaces.dart';
+
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class TextString {
   static const String enterEmailPhone = 'Enter Email/Phone (without +91)';
@@ -16,10 +20,12 @@ class TextString {
 }
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({
+  LoginForm({
     super.key,
   });
 
+  final List<String> userType = ['Authority', 'Committee', 'Student'];
+  String? selectedValue;
   @override
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
@@ -33,10 +39,6 @@ class LoginForm extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // const FlutterLogo(
-            //   size: 150,
-            // ),
-
             SizedBox(
               width: screenWidth * 0.9,
               child: CustomTextField(
@@ -55,6 +57,14 @@ class LoginForm extends StatelessWidget {
                   }),
             ),
             heightBetweenFields_1(context),
+            CustomDropDown(
+                items: userType.map((e) {
+                  return DropdownMenuItem<String>(
+                      value: e, child: AutoSizeText(e));
+                }).toList(),
+                dropdownHeight: MediaQuery.of(context).size.height * 0.05,
+                dropdownWidth: MediaQuery.of(context).size.width * 0.05,
+                hint: const AutoSizeText('Selec user type')),
             CustomElevatedButton(
               title: 'Submit',
               icon: FontAwesomeIcons.check,
