@@ -28,11 +28,7 @@ class AuthorityMandatoryFieldState extends CheckState with FormzMixin {
   bool hasName;
 
   @override
-  List<FormzInput> get inputs => [
-        name,
-        phone,
-        email,
-      ];
+  List<FormzInput> get inputs => [name, phone, email, role];
 }
 
 class AuthorityDataFilledActionState extends AuthorityMandatoryFieldState {}

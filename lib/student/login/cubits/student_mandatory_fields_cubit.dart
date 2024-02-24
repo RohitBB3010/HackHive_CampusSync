@@ -56,7 +56,7 @@ class StudentMandatoryFieldsCubit extends Cubit<StudentMandatoryFieldState> {
     );
   }
 
-  void clinicPhoneChanged(String value) {
+  void phoneChanged(String value) {
     final clinicPhone = Phone.dirty(value);
     emit(
       state.copyWith(

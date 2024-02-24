@@ -124,7 +124,7 @@ class StudentMandatoryFields extends StatelessWidget {
                                   prefixText: '+91',
                                   onChanged: context
                                       .read<StudentMandatoryFieldsCubit>()
-                                      .clinicPhoneChanged,
+                                      .phoneChanged,
                                   controller: clinicPhoneController,
                                   errorText: state.phone.error,
                                   enabled: !state.hasPhoneNo,

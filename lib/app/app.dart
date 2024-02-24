@@ -1,9 +1,10 @@
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
+import 'package:campus_sync/authority/login/authority_screen.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/consts/colors.dart';
-import 'package:campus_sync/student/login/home.dart';
+import 'package:campus_sync/student/login/student_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +41,7 @@ class App extends StatelessWidget {
               //         onPressed: context.read<AuthCubit>().returnToLoginPage)
               //   ],
               // );
-              return HomeScreen();
+              return AuthorityScreen();
             } else if (state is AuthLoadingState) {
               return const Scaffold(
                 body: Center(

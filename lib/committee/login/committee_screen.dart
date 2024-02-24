@@ -1,7 +1,7 @@
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
-import 'package:campus_sync/authority/login/authority_mandatory_fields.dart';
+import 'package:campus_sync/committee/login/committee_mandatory_fields.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/student/login/cubits/check_cubit.dart';
 import 'package:campus_sync/student/login/student_mandatory_fields.dart';
@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class CommitteeScreen extends StatelessWidget {
+  CommitteeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class DisplayScreen extends StatelessWidget {
       child: BlocBuilder<CheckCubit, CheckState>(
         builder: (context, state) {
           if (state is DataUnavailableState) {
-            return AuthorityMandatoryFields();
+            return CommitteeMandatoryFields();
           } else if (state is CheckLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else {

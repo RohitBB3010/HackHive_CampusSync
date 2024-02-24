@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
+import 'package:campus_sync/committee/login/cubits/committee_mandatory_fields_cubit.dart';
 import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/components/text_button.dart';
@@ -123,8 +124,8 @@ class CommitteeMandatoryFields extends StatelessWidget {
                                   labelText: 'Phone No',
                                   prefixText: '+91',
                                   onChanged: context
-                                      .read<StudentMandatoryFieldsCubit>()
-                                      .clinicPhoneChanged,
+                                      .read<CommitteeMandatoryFieldsCubit>()
+                                      .phoneChanged,
                                   controller: clinicPhoneController,
                                   errorText: state.phone.error,
                                   enabled: !state.hasPhoneNo,

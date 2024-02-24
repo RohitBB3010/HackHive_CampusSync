@@ -57,7 +57,7 @@ class AuthorityMandatoryFieldsCubit
     );
   }
 
-  void clinicPhoneChanged(String value) {
+  void phoneChanged(String value) {
     final clinicPhone = Phone.dirty(value);
     emit(
       state.copyWith(
@@ -71,6 +71,15 @@ class AuthorityMandatoryFieldsCubit
     emit(
       state.copyWith(
         email: email,
+      ),
+    );
+  }
+
+  void roleChanged(String value) {
+    final role = Role.dirty(value);
+    emit(
+      state.copyWith(
+        role: role,
       ),
     );
   }
