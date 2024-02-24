@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/app/app.dart';
+import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/consts/colors.dart';
 import 'package:campus_sync/consts/empty_spaces.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserType extends StatelessWidget {
   UserType({super.key});
@@ -48,6 +50,7 @@ class UserType extends StatelessWidget {
                 heightBetweenFields_2(context),
                 GestureDetector(
                   onTap: () {
+                    context.read<AuthCubit>().setUserType('authority');
                     navigatorKey.currentState?.push(MaterialPageRoute(
                         builder: (context) =>
                             const App(userType: 'authority')));
@@ -62,6 +65,7 @@ class UserType extends StatelessWidget {
                 heightBetweenFields_1(context),
                 GestureDetector(
                   onTap: () {
+                    context.read<AuthCubit>().setUserType('committee');
                     navigatorKey.currentState?.push(MaterialPageRoute(
                         builder: (context) =>
                             const App(userType: 'committee')));
@@ -76,6 +80,7 @@ class UserType extends StatelessWidget {
                 heightBetweenFields_2(context),
                 GestureDetector(
                   onTap: () {
+                    context.read<AuthCubit>().setUserType('student');
                     navigatorKey.currentState?.push(MaterialPageRoute(
                         builder: (context) => const App(userType: 'student')));
                   },

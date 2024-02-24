@@ -39,6 +39,16 @@ class Field extends FormzInput<String, String> {
   }
 }
 
+class userTypeFormz extends FormzInput<String, String> {
+  const userTypeFormz.pure() : super.pure('');
+  const userTypeFormz.dirty([super.value = '']) : super.dirty();
+
+  @override
+  String? validator(String value) {
+    return null;
+  }
+}
+
 class TextInput extends FormzInput<String, String> {
   const TextInput.pure() : super.pure('');
   const TextInput.dirty([super.value = '']) : super.dirty();

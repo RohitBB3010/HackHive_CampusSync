@@ -31,9 +31,7 @@ class StudentScreen extends StatelessWidget {
             );
           } else {
             debugPrint('$authState');
-            return const LoginScreen(
-              userType: '',
-            );
+            return const LoginScreen();
           }
         },
       ),

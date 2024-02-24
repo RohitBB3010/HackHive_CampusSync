@@ -57,14 +57,14 @@ class EmailSignUpState extends EmailState {
 }
 
 class AuthUnauthenticatedState extends AuthState {
-  AuthUnauthenticatedState({
-    this.email = const Email.pure(),
-    this.password = const Password.pure(),
-    this.phone = const Phone.pure(),
-    this.otp = const OTP.pure(),
-    this.field = const Field.pure(),
-    this.isButtonEnabled = false,
-  });
+  AuthUnauthenticatedState(
+      {this.email = const Email.pure(),
+      this.password = const Password.pure(),
+      this.phone = const Phone.pure(),
+      this.otp = const OTP.pure(),
+      this.field = const Field.pure(),
+      this.isButtonEnabled = false,
+      this.userType = const userTypeFormz.pure()});
 
   final Email email;
   final Password password;
@@ -72,6 +72,7 @@ class AuthUnauthenticatedState extends AuthState {
   final OTP otp;
   final Field field;
   final bool isButtonEnabled;
+  final userTypeFormz userType;
 
   AuthUnauthenticatedState copyWith({
     Email? email,
@@ -79,14 +80,15 @@ class AuthUnauthenticatedState extends AuthState {
     Phone? phone,
     OTP? otp,
     Field? field,
+    userTypeFormz? userType,
   }) {
     return AuthUnauthenticatedState(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      phone: phone ?? this.phone,
-      otp: otp ?? this.otp,
-      field: field ?? this.field,
-    );
+        email: email ?? this.email,
+        password: password ?? this.password,
+        phone: phone ?? this.phone,
+        otp: otp ?? this.otp,
+        field: field ?? this.field,
+        userType: userType ?? this.userType);
   }
 }
 
@@ -101,3 +103,16 @@ class AuthError extends AuthState {
   AuthError(this.message);
   final String message;
 }
+
+// class userTypeState extends AuthState {
+//   userTypeState({this.userType = ''});
+//   final String userType;
+
+//   userTypeState copyWith({
+//     String? userType,
+//   }) {
+//     return userTypeState(
+//       userType: userType ?? this.userType,
+//     );
+//   }
+// }

@@ -43,9 +43,7 @@ class App extends StatelessWidget {
                 ),
               );
             } else {
-              return LoginScreen(
-                userType: userType,
-              );
+              return LoginScreen();
             }
           },
         ),

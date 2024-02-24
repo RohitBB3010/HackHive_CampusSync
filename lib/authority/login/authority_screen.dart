@@ -52,9 +52,7 @@ class AuthorityScreen extends StatelessWidget {
             );
           } else {
             debugPrint('$authState');
-            return const LoginScreen(
-              userType: '',
-            );
+            return const LoginScreen();
           }
         },
       ),

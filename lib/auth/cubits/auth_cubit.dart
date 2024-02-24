@@ -13,7 +13,7 @@ class AuthCubit extends Cubit<AuthState> {
   final _db = FirebaseFirestore.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  String? userName;
+  String userName = '';
 
   String get uid => auth.currentUser!.uid;
 
@@ -32,8 +32,18 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<bool> checkUserExists(String email) async {
-    final usersRef = FirebaseFirestore.instance.collection('users');
+  void setUserType(String userType) {
+    final userTypeValue = userTypeFormz.dirty(userType);
+    debugPrint('IN set function : $userTypeValue');
+    emit((state as AuthUnauthenticatedState).copyWith(userType: userTypeValue));
+  }
+
+  Future<bool> checkUserExists(String email, String userType) async {
+    // final currState = state as userTypeState;
+    debugPrint(
+        'from checkUserExists - ${(state as AuthUnauthenticatedState).userType.value}');
+    debugPrint('usertype - $userType');
+    final usersRef = FirebaseFirestore.instance.collection(userType);
     final snapshot =
         await usersRef.where('email', isEqualTo: email).limit(1).get();
     return snapshot.docs.isNotEmpty;
@@ -43,7 +53,8 @@ class AuthCubit extends Cubit<AuthState> {
     if (state is AuthUnauthenticatedState) {
       final currState = state as AuthUnauthenticatedState;
 
-      final condition = await checkUserExists(currState.email.value);
+      final condition = await checkUserExists(
+          currState.email.value, currState.userType.value);
       if (condition) {
         emit(EmailSignInState(currState.email.value, false));
       } else {
@@ -177,31 +188,6 @@ class AuthCubit extends Cubit<AuthState> {
   //   }
   // }
 
-  Future<void> signInWithVerificationCode(
-    String verificationCode,
-    String verificationId,
-  ) async {
-    try {
-      final credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: verificationCode,
-      );
-
-      final userCred = await auth.signInWithCredential(credential);
-
-      // Create user in firestore if it doesn't exist
-      await createUserIfNotExists(
-        userCred,
-        'phone',
-        userCred.user!.phoneNumber!,
-      );
-      // await fetchData();
-    } catch (e) {
-      debugPrint('Error signing in: $e');
-      emit(AuthUnauthenticatedState());
-    }
-  }
-
   Future<void> createUserIfNotExists(
     UserCredential userCred,
     String fieldName,
@@ -289,9 +275,11 @@ class AuthCubit extends Cubit<AuthState> {
     // Emits appropriate way to sign in or sign up based on the input
     if (state is AuthUnauthenticatedState) {
       final currState = state as AuthUnauthenticatedState;
+
       final inputStatus = checkStringType(currState.field.value);
 
-      final signCondition = await checkUserExists(currState.field.value);
+      final signCondition = await checkUserExists(
+          currState.field.value, currState.userType.value);
       if (signCondition) {
         emit(EmailSignInState(currState.field.value, true));
       } else {
