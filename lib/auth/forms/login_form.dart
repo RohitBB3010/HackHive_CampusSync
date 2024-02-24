@@ -50,38 +50,40 @@ class LoginForm extends StatelessWidget {
     final screenHeight = screenSize.height;
 
     return SafeArea(
-      child: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // const FlutterLogo(
-          //   size: 150,
-          // ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // const FlutterLogo(
+            //   size: 150,
+            // ),
 
-          SizedBox(
-            width: screenWidth * 0.9,
-            child: CustomTextField(
-                onChanged: context.read<AuthCubit>().textValueChanged,
-                labelText: TextString.enterEmailPhone,
-                icon: Icons.person,
-                validator: (value) {
-                  if (double.tryParse(value!) != null && value.length < 10) {
-                    return TextString.validPhone;
-                  } else if (value.contains('@') != true &&
-                      value.isNotEmpty &&
-                      value.length != 10) {
-                    return TextString.validEmail;
-                  }
-                  return null;
-                }),
-          ),
-          heightBetweenFields_1(context),
-          CustomElevatedButton(
-            title: 'Submit',
-            icon: FontAwesomeIcons.check,
-            //color: ButtonThemeData,
-            onPressed: context.read<AuthCubit>().onClickSubmit,
-          ),
-        ],
+            SizedBox(
+              width: screenWidth * 0.9,
+              child: CustomTextField(
+                  onChanged: context.read<AuthCubit>().textValueChanged,
+                  labelText: TextString.enterEmailPhone,
+                  icon: Icons.person,
+                  validator: (value) {
+                    if (double.tryParse(value!) != null && value.length < 10) {
+                      return TextString.validPhone;
+                    } else if (value.contains('@') != true &&
+                        value.isNotEmpty &&
+                        value.length != 10) {
+                      return TextString.validEmail;
+                    }
+                    return null;
+                  }),
+            ),
+            heightBetweenFields_1(context),
+            CustomElevatedButton(
+              title: 'Submit',
+              icon: FontAwesomeIcons.check,
+              //color: ButtonThemeData,
+              onPressed: context.read<AuthCubit>().onClickSubmit,
+            ),
+          ],
+        ),
       ),
     );
   }

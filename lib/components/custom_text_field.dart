@@ -45,13 +45,13 @@ class CustomTextField extends TextFormField {
             ),
             prefixIcon: Icon(
               icon,
-              color: Colors.black.withOpacity(0.8),
+              color: Colors.white.withOpacity(0.8),
               size: 25,
             ),
             hintText: labelText,
             labelText: enabled ? labelText : null,
             prefix: prefixText != null ? Text(prefixText) : null,
-            labelStyle: TextStyle(color: Colors.black.withOpacity(0.8)),
+            labelStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
           ),
           controller: controller,
         );

@@ -49,22 +49,30 @@ class LoginScreen extends StatelessWidget {
     //       child: Scaffold(body: buildBlocConsumedAuthView(const LoginForm())),
     //       isLandscape: isLandscape);
     // });
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            height: screenHeight * 0.08,
-            width: screenWidth * 0.6,
-            child: Image.asset("rankUP_banner.png"),
-          ),
-          //heightBetweenFields(screenHeight),
+    return SafeArea(
+      // child: Scaffold(
+      //     body: SingleChildScrollView(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.end,
+      //     children: [
+      //       // Container(
+      //       //   margin: const EdgeInsets.only(top: 20),
+      //       //   height: screenHeight * 0.08,
+      //       //   width: screenWidth * 0.6,
+      //       //   child: Image.asset("rankUP_banner.png"),
+      //       // ),
+      //       //heightBetweenFields(screenHeight),
 
-          buildBlocConsumedAuthView(const LoginForm()),
-        ],
+      //       buildBlocConsumedAuthView(const LoginForm()),
+      //     ],
+      //   ),
+      // )),
+      child: Center(
+        child: Scaffold(
+          body: buildBlocConsumedAuthView(const LoginForm()),
+        ),
       ),
-    ));
+    );
   }
 }
 
