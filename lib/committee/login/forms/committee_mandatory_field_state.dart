@@ -1,12 +1,12 @@
 import 'package:campus_sync/form_fields.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:campus_sync/student/login/states/check_state.dart';
+import 'package:campus_sync/committee/login/states/check_state.dart';
 import 'package:formz/formz.dart';
 
 part 'committee_mandatory_field_state.g.dart';
 
 @CopyWith()
-class CommitteeMandatoryFieldState extends CheckState with FormzMixin {
+class CommitteeMandatoryFieldState extends CheckCommitteeState with FormzMixin {
   CommitteeMandatoryFieldState({
     this.name = const RequiredTextInput.pure(),
     this.email = const Email.pure(),

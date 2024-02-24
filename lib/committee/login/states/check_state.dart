@@ -1,7 +1,7 @@
-class CheckState {}
+class CheckCommitteeState {}
 
-class CheckLoadingState extends CheckState {}
+class CommitteeCheckLoadingState extends CheckCommitteeState {}
 
-class DataUnavailableState extends CheckState {}
+class CommitteeDataUnavailableState extends CheckCommitteeState {}
 
-class AllDataPresentState extends CheckState {}
+class CommitteeAllDataPresentState extends CheckCommitteeState {}

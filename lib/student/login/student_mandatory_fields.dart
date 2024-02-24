@@ -4,7 +4,7 @@ import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/components/text_button.dart';
 import 'package:campus_sync/consts/colors.dart';
-import 'package:campus_sync/student/login/cubits/check_cubit.dart';
+import 'package:campus_sync/student/login/cubits/check_student_cubit.dart';
 import 'package:campus_sync/student/login/cubits/student_mandatory_fields_cubit.dart';
 import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
 
@@ -34,7 +34,7 @@ class StudentMandatoryFields extends StatelessWidget {
         listenWhen: (previous, current) => current is DataFilledActionState,
         listener: (context, state) {
           if (state is DataFilledActionState) {
-            context.read<CheckCubit>().emitAllDataPresentState();
+            context.read<CheckStudentCubit>().emitAllDataPresentState();
           }
         },
         builder: (context, state) {

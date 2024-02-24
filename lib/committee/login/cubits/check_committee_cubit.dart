@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:campus_sync/consts/fb_const.dart';
-import 'package:campus_sync/student/login/states/check_state.dart';
+import 'package:campus_sync/committee/login/states/check_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CheckCubit extends Cubit<CheckState> {
-  CheckCubit() : super(CheckState());
+class CheckCommitteeCubit extends Cubit<CheckCommitteeState> {
+  CheckCommitteeCubit() : super(CheckCommitteeState());
 
   Future<void> checkUserDataStatus(String userID) async {
-    emit(CheckLoadingState());
+    emit(CommitteeCheckLoadingState());
     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection(FBCommitteeConsts.collCommittee)
         .doc(userID)
@@ -27,11 +27,11 @@ class CheckCubit extends Cubit<CheckState> {
     if (hasName && hasPhoneNo && hasEmail) {
       emitAllDataPresentState();
     } else {
-      emit(DataUnavailableState());
+      emit(CommitteeDataUnavailableState());
     }
   }
 
   void emitAllDataPresentState() {
-    emit(AllDataPresentState());
+    emit(CommitteeAllDataPresentState());
   }
 }

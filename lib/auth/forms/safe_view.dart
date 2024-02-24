@@ -16,11 +16,6 @@ class SafeView extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          // Lottie.network(
-          //   'https://assets2.lottiefiles.com/packages/lf20_ge2cws3x.json',
-          //   height: MediaQuery.of(context).size.height * 0.4,
-          //   width: MediaQuery.of(context).size.width * 0.5,
-          // ),
           const AutoSizeText(
             'Oops an error occured !!!',
             maxLines: 1,

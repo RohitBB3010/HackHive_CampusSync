@@ -14,6 +14,8 @@ class AuthCubit extends Cubit<AuthState> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String userName = '';
+  String? usersType;
+  String? type;
 
   String get uid => auth.currentUser!.uid;
 
@@ -22,26 +24,43 @@ class AuthCubit extends Cubit<AuthState> {
     return token.token!;
   }
 
-  void checkAuth() {
+  void checkAuth() async {
     if (auth.currentUser != null) {
+      // debugPrint(
+      //     'usertype - ${(state as AuthUnauthenticatedState).userType.value}');
       emit(AuthLoadingState());
+
+      debugPrint('type - ${type}');
       // fetchData();
+      if (type == 'Student') {
+        emit(StudentSignInState());
+      } else if (type == 'Authority') {
+        emit(AuthoritySignInState());
+      } else if (type == 'Committee') {
+        emit(CommitteeSignInState());
+      }
       emit(AuthAuthenticatedState());
     } else {
       emit(AuthUnauthenticatedState());
     }
   }
 
+  // Future<void> getUserRole() async {
+  //   final usersRef = FirebaseFirestore.instance.collection(usersType);
+  //   final snapshot =
+  //       await usersRef.where('email', isEqualTo: email).limit(1).get();
+  // }
+
   void setUserType(String? userType) {
     final userTypeValue = userTypeFormz.dirty(userType != null ? userType : '');
     debugPrint('IN set function : $userTypeValue');
+    usersType = userTypeValue.value;
     emit((state as AuthUnauthenticatedState).copyWith(userType: userTypeValue));
   }
 
   Future<bool> checkUserExists(String email, String userType) async {
-    // final currState = state as userTypeState;
-    debugPrint(
-        'from checkUserExists - ${(state as AuthUnauthenticatedState).userType.value}');
+    // debugPrint(
+    //     'from checkUserExists - ${(state as AuthUnauthenticatedState).userType.value}');
     debugPrint('usertype - $userType');
     final usersRef = FirebaseFirestore.instance.collection(userType);
     final snapshot =
@@ -76,8 +95,26 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-
+      // if (usersType == 'Student') {
+      //   emit(StudentSignInState());
+      // } else if (usersType == 'Authority') {
+      //   emit(AuthoritySignInState());
+      // } else {
+      //   emit(CommitteeSignInState());
+      // }
       //await fetchData();
+
+      // final userTypeValue =
+      //     userTypeFormz.dirty(usersType != null ? usersType! : '');
+
+      // usersType = userTypeValue.value;
+      // emit(AuthAuthenticatedState().copyWith(userType: userTypeValue));
+      // DocumentSnapshot userDoc = await FirebaseFirestore.instance
+      //     .collection(usersType!)
+      //     .doc(auth.currentUser!.uid)
+      //     .get();
+      // Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      type = 'Student';
       emit(AuthAuthenticatedState());
     } on FirebaseAuthException catch (error) {
       if (error.code.contains('user-not-found')) {
@@ -168,64 +205,28 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthUnauthenticatedState());
   }
 
-  // Future<void> signInWithWebOTP(
-  //   String smsCode,
-  //   ConfirmationResult confirmationResult,
+  // Future<void> createUserIfNotExists(
+  //   UserCredential userCred,
+  //   String fieldName,
+  //   String fieldValue,
   // ) async {
-  //   try {
-  //     final userCredential = await confirmationResult.confirm(smsCode);
+  //   // Create user in firestore if it doesn't exist
 
-  //     await createUserIfNotExists(
-  //       userCredential,
-  //       'phone',
-  //       userCredential.user!.phoneNumber!,
-  //     );
-  //     // await fetchData();
-  //     emit(AuthAuthenticatedState());
-  //   } catch (e) {
-  //     debugPrint('Error signing in: $e');
-  //     emit(AuthUnauthenticatedState());
+  //   final userDoc =
+  //       await firestore.collection(usersType!).doc(userCred.user!.uid).get();
+
+  //   if (!userDoc.exists) {
+  //     await enableLogging();
+
+  //     await firestore
+  //         .collection(usersType!)
+  //         .doc(userCred.user!.uid)
+  //         .set({fieldName: fieldValue});
   //   }
   // }
 
-  Future<void> createUserIfNotExists(
-    UserCredential userCred,
-    String fieldName,
-    String fieldValue,
-  ) async {
-    // Create user in firestore if it doesn't exist
-
-    final userDoc =
-        await firestore.collection('users').doc(userCred.user!.uid).get();
-
-    if (!userDoc.exists) {
-      await enableLogging();
-
-      await firestore
-          .collection('users')
-          .doc(userCred.user!.uid)
-          .set({fieldName: fieldValue});
-    }
-  }
-
   Future<void> enableLogging() async {
-    // final headers = {
-    //   'Authorization': await getAuthToken(),
-    //   'Content-Type': 'application/json',
-    // };
-
     try {
-      // await http.post(
-      //   Uri.parse(
-      //     '${APIConsts.BASE_URL}${APIConsts.ENABLE_LOGGING}',
-      //   ),
-      //   headers: headers,
-      //   body: json.encode({
-      //     'id': true,
-      //   }),
-      // );
-
-      // propagate custom claims to the client so that it can be used in firestore security rules
       await auth.currentUser!.getIdTokenResult(true);
       await auth.currentUser!.reload();
     } catch (e) {
@@ -239,23 +240,29 @@ class AuthCubit extends Cubit<AuthState> {
         .then((userCredential) async {
       await enableLogging().then((_) async {
         await firestore
-            .collection('students')
+            .collection(usersType!)
             .doc(userCredential.user!.uid)
-            .set({'email': email}).catchError((onError) {
+            .set({'email': email, 'userRole': usersType}).catchError((onError) {
           debugPrint('Error adding doc $onError');
         });
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection(usersType!)
+            .doc(userCredential.user!.uid)
+            .get();
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        type = userData['userRole'];
+        debugPrint('type = from signup = $type');
       });
     });
 
-    //await auth.signOut();
+    await auth.signOut();
+    emit(EmailSignInState(email, false));
   }
 
   void signOut() {
     auth.signOut().then((value) async {
       await FirebaseFirestore.instance.terminate();
-      // if (kIsWeb) {
-      //   html.window.location.reload();
-      // }
+
       emit(AuthUnauthenticatedState());
     }).catchError((error) {
       debugPrint('Error signing out: $error');

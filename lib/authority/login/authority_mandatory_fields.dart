@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/authority/login/cubits/authority_mandatory_fields_cubit.dart';
-import 'package:campus_sync/authority/login/cubits/check_cubit.dart';
+import 'package:campus_sync/authority/login/cubits/check_authority_cubit.dart';
 import 'package:campus_sync/authority/login/forms/authority_mandatory_field_state.dart';
 import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
@@ -45,7 +45,7 @@ class AuthorityMandatoryFields extends StatelessWidget {
             current is AuthorityDataFilledActionState,
         listener: (context, state) {
           if (state is AuthorityDataFilledActionState) {
-            context.read<CheckCubit>().emitAllDataPresentState();
+            context.read<CheckAuthorityCubit>().emitAllDataPresentState();
           }
         },
         builder: (context, state) {

@@ -6,7 +6,7 @@ import 'package:formz/formz.dart';
 part 'student_mandatory_field_state.g.dart';
 
 @CopyWith()
-class StudentMandatoryFieldState extends CheckState with FormzMixin {
+class StudentMandatoryFieldState extends CheckStudentState with FormzMixin {
   StudentMandatoryFieldState({
     this.name = const RequiredTextInput.pure(),
     this.email = const Email.pure(),

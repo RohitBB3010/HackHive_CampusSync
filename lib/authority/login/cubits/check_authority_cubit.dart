@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:campus_sync/consts/fb_const.dart';
-import 'package:campus_sync/student/login/states/check_state.dart';
+import 'package:campus_sync/authority/login/states/check_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CheckCubit extends Cubit<CheckState> {
-  CheckCubit() : super(CheckState());
+class CheckAuthorityCubit extends Cubit<CheckAuthorityState> {
+  CheckAuthorityCubit() : super(CheckAuthorityState());
 
   Future<void> checkUserDataStatus(String userID) async {
-    emit(CheckLoadingState());
+    emit(AuthorityCheckLoadingState());
     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection(FBAuthorityConsts.collAuthority)
         .doc(userID)
@@ -27,11 +27,11 @@ class CheckCubit extends Cubit<CheckState> {
     if (hasName && hasPhoneNo && hasEmail) {
       emitAllDataPresentState();
     } else {
-      emit(DataUnavailableState());
+      emit(AuthorityDataUnavailableState());
     }
   }
 
   void emitAllDataPresentState() {
-    emit(AllDataPresentState());
+    emit(AuthorityAllDataPresentState());
   }
 }

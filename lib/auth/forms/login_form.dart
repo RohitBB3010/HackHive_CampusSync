@@ -64,7 +64,7 @@ class LoginForm extends StatelessWidget {
                 }).toList(),
                 dropdownHeight: MediaQuery.of(context).size.height * 0.05,
                 dropdownWidth: MediaQuery.of(context).size.width * 0.05,
-                hint: const AutoSizeText('Selec user type')),
+                hint: const AutoSizeText('Select user type')),
             CustomElevatedButton(
               title: 'Submit',
               icon: FontAwesomeIcons.check,

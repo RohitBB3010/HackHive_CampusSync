@@ -1,7 +1,7 @@
-class CheckState {}
+class CheckAuthorityState {}
 
-class CheckLoadingState extends CheckState {}
+class AuthorityCheckLoadingState extends CheckAuthorityState {}
 
-class DataUnavailableState extends CheckState {}
+class AuthorityDataUnavailableState extends CheckAuthorityState {}
 
-class AllDataPresentState extends CheckState {}
+class AuthorityAllDataPresentState extends CheckAuthorityState {}

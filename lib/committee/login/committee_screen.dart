@@ -2,10 +2,10 @@ import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
 import 'package:campus_sync/committee/login/committee_mandatory_fields.dart';
+import 'package:campus_sync/committee/login/cubits/check_committee_cubit.dart';
 import 'package:campus_sync/components/elevated_button.dart';
-import 'package:campus_sync/student/login/cubits/check_cubit.dart';
-import 'package:campus_sync/student/login/student_mandatory_fields.dart';
-import 'package:campus_sync/student/login/states/check_state.dart';
+import 'package:campus_sync/committee/login/states/check_state.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,26 +16,6 @@ class CommitteeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //   return StreamBuilder(
-    //     stream: AuthService().userStream,
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(
-    //           child: Text('Loading'),
-    //         );
-    //       } else if (snapshot.hasError) {
-    //         return const Center(
-    //           child: Text('Error'),
-    //         );
-    //       } else if (snapshot.hasData) {
-    //         return const TopicsScreen();
-    //       } else {
-    //         return const LoginScreen();
-    //       }
-    //     },
-    //   );
-    // }
-
     return BlocProvider(
       create: (context) => AuthCubit()..checkAuth(),
       child: BlocBuilder<AuthCubit, AuthState>(
@@ -66,13 +46,13 @@ class DisplayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          CheckCubit()..checkUserDataStatus(context.read<AuthCubit>().uid),
-      child: BlocBuilder<CheckCubit, CheckState>(
+      create: (context) => CheckCommitteeCubit()
+        ..checkUserDataStatus(context.read<AuthCubit>().uid),
+      child: BlocBuilder<CheckCommitteeCubit, CheckCommitteeState>(
         builder: (context, state) {
-          if (state is DataUnavailableState) {
+          if (state is CommitteeDataUnavailableState) {
             return CommitteeMandatoryFields();
-          } else if (state is CheckLoadingState) {
+          } else if (state is CommitteeCheckLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return BlocProvider(

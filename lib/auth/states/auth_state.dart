@@ -15,20 +15,6 @@ class EmailPasswordResetLinkSent extends EmailSignInState {
   EmailPasswordResetLinkSent(super.email, super.isPasswordVisible);
 }
 
-// class EmailVerificationLinkSent extends EmailState{
-//   EmailVerificationLinkSent(this.email, this.isPasswordVisible);
-//
-//   final String email;
-//   final bool isPasswordVisible;
-// }
-//
-// class UnverifiedEmailAuthState extends EmailState{
-//   UnverifiedEmailAuthState(this.email, this.isPasswordVisible);
-//
-//   final String email;
-//   final bool isPasswordVisible;
-// }
-
 //Class for when user has already signed in
 class EmailSignInState extends EmailState {
   EmailSignInState(this.email, this.isPasswordVisible);
@@ -94,6 +80,12 @@ class AuthUnauthenticatedState extends AuthState {
 
 class AuthLoadingState extends AuthState {}
 
+class StudentSignInState extends AuthState {}
+
+class AuthoritySignInState extends AuthState {}
+
+class CommitteeSignInState extends AuthState {}
+
 class EmailSignState extends SignInStateAuth {
   EmailSignState(this.value);
   final String value;
@@ -103,16 +95,3 @@ class AuthError extends AuthState {
   AuthError(this.message);
   final String message;
 }
-
-// class userTypeState extends AuthState {
-//   userTypeState({this.userType = ''});
-//   final String userType;
-
-//   userTypeState copyWith({
-//     String? userType,
-//   }) {
-//     return userTypeState(
-//       userType: userType ?? this.userType,
-//     );
-//   }
-// }

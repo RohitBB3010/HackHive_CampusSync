@@ -5,6 +5,9 @@ import 'package:campus_sync/auth/forms/safe_view.dart';
 import 'package:campus_sync/auth/forms/sign_in_view.dart';
 import 'package:campus_sync/auth/forms/sign_up_view.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
+import 'package:campus_sync/authority/login/authority_screen.dart';
+import 'package:campus_sync/committee/login/committee_screen.dart';
+import 'package:campus_sync/student/login/student_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,36 +25,14 @@ class LoginScreen extends StatelessWidget {
     return SafeArea(
       child: Center(
         child: Scaffold(
-          body: buildBlocConsumedAuthView(LoginForm()),
+          body: buildBlocConsumedAuthView(LoginForm(), authCubit),
         ),
       ),
     );
   }
 }
 
-// Widget buildBlocConsumedAuthView(Widget authView) {
-//   return BlocConsumer<AuthCubit, AuthState>(
-//     listenWhen: (previous, current) => current is PhoneAuthActionState,
-//     buildWhen: (previous, current) => current is! PhoneAuthActionState,
-//     listener: (context, state) {
-//       if (state is OTPRequestedState) {
-//         context.read<AuthCubit>().signInWithPhone(state.phoneNumber);
-//       }
-//     },
-//     builder: (context, state) {
-//       if (state is AuthUnauthenticatedState) {
-//         debugPrint('from first bloc - $state');
-//         return authView;
-//       } else {
-//         debugPrint('from first bloc - $state');
-
-//         return buildNonUnauthenticatedView(state);
-//       }
-//     },
-//   );
-// }
-
-Widget buildBlocConsumedAuthView(Widget authView) {
+Widget buildBlocConsumedAuthView(Widget authView, AuthCubit authCubit) {
   return BlocBuilder<AuthCubit, AuthState>(
     builder: (context, state) {
       if (state is AuthUnauthenticatedState) {
@@ -60,13 +41,13 @@ Widget buildBlocConsumedAuthView(Widget authView) {
       } else {
         debugPrint('from first bloc - $state');
 
-        return buildNonUnauthenticatedView(state);
+        return buildNonUnauthenticatedView(state, authCubit);
       }
     },
   );
 }
 
-Widget buildNonUnauthenticatedView(AuthState state) {
+Widget buildNonUnauthenticatedView(AuthState state, AuthCubit authCubit) {
   if (state is AuthUnauthenticatedState) {
     debugPrint('$state');
     return LoginForm();
