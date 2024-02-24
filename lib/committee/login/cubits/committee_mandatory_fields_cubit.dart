@@ -5,7 +5,7 @@ import 'package:campus_sync/form_fields.dart';
 import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
-import 'package:campus_sync/student/login/models/user.dart';
+import 'package:campus_sync/student/login/models/student.dart';
 
 class CommitteeMandatoryFieldsCubit
     extends Cubit<CommitteeMandatoryFieldState> {
@@ -19,13 +19,13 @@ class CommitteeMandatoryFieldsCubit
         .doc(userID)
         .get()
         .then((value) {
-      final user = User.fromJson(value.data()!);
+      final user = Student.fromJson(value.data()!);
 
       final formattedPhone = user.phone == '' ? '' : user.phone.substring(3);
 
       emit(
         state.copyWith(
-          name: RequiredTextInput.dirty(user.name),
+          name: RequiredTextInput.dirty(user.studentName),
           email: Email.dirty(user.email),
           phone: Phone.dirty(formattedPhone),
           initialFieldsRendered: true,
@@ -35,8 +35,8 @@ class CommitteeMandatoryFieldsCubit
   }
 
   void setUpdateMandatoryFields(String userID) {
-    final user = User(
-      name: state.name.value,
+    final user = Student(
+      studentName: state.name.value,
       phone: '+91${state.phone.value}',
       email: state.email.value,
     );

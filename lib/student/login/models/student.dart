@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'user.g.dart';
+part 'student.g.dart';
 
 @JsonSerializable()
-class User {
-  User({
-    required this.name,
+class Student {
+  Student({
+    required this.studentName,
     required this.phone,
     required this.email,
     this.filePath,
@@ -13,10 +13,11 @@ class User {
     this.isVerified = false,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory Student.fromJson(Map<String, dynamic> json) =>
+      _$StudentFromJson(json);
 
   @JsonKey(defaultValue: '')
-  final String name;
+  final String studentName;
   @JsonKey(defaultValue: '')
   final String phone;
   @JsonKey(defaultValue: '')
@@ -27,5 +28,5 @@ class User {
   final String? filePath;
   final bool isVerified;
 
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toJson() => _$StudentToJson(this);
 }

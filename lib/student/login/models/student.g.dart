@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'student.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
-      name: json['name'] as String? ?? '',
+Student _$StudentFromJson(Map<String, dynamic> json) => Student(
+      studentName: json['studentName'] as String? ?? '',
       phone: json['phone'] as String? ?? '',
       email: json['email'] as String? ?? '',
       filePath: json['filePath'] as String? ?? '',
@@ -15,8 +15,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       isVerified: json['isVerified'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'name': instance.name,
+Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
+      'studentName': instance.studentName,
       'phone': instance.phone,
       'email': instance.email,
       'imageUrl': instance.imageUrl,
