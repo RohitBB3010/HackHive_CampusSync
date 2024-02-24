@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({super.key, required this.userType});
+  final String userType;
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       theme: ThemeData(
         scaffoldBackgroundColor: primary_2,
@@ -33,14 +35,7 @@ class App extends StatelessWidget {
         child: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthAuthenticatedState) {
-              // return Column(
-              //   children: [
-              //     const Text('home'),
-              //     CustomElevatedButton(
-              //         title: 'Signout',
-              //         onPressed: context.read<AuthCubit>().returnToLoginPage)
-              //   ],
-              // );
+             
               return AuthorityScreen();
             } else if (state is AuthLoadingState) {
               return const Scaffold(
