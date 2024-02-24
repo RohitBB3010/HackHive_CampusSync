@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684648449179",
+    "project_id": "campus-sync-35972",
+    "storage_bucket": "campus-sync-35972.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684648449179:android:92533a5e7c81b5383db23e",
+        "android_client_info": {
+          "package_name": "com.example.campus_sync"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAehRemr4-gFnWepSBLjEoHEjzppjjHvbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
