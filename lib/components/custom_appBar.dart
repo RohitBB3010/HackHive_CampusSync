@@ -8,14 +8,18 @@ class CustomAppBar extends AppBar {
       : super(
             title: Row(
               children: [
-                Icon(icon),
-                widthBetweenFields_1(context!),
+                Icon(
+                  icon,
+                  color: primary_1,
+                ),
+                widthBetweenFields_1(context),
                 AutoSizeText(
                   titleText!,
+                  style: TextStyle(color: primary_1),
                 ),
               ],
             ),
-            backgroundColor: primary_2,
+            backgroundColor: secondary_3,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
