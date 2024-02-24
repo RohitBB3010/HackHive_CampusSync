@@ -87,6 +87,16 @@ class Email extends FormzInput<String, String> {
   }
 }
 
+class Role extends FormzInput<String, String> {
+  const Role.pure() : super.pure('');
+  const Role.dirty([super.value = '']) : super.dirty();
+
+  @override
+  String? validator(String value) {
+    return null;
+  }
+}
+
 class Password extends FormzInput<String, String> {
   const Password.pure() : super.pure('');
   const Password.dirty([super.value = '']) : super.dirty();
