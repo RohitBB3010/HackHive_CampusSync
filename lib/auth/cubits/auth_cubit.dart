@@ -32,10 +32,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void forGoogleAuth() {
-    emit(GoogleAuthInitialState());
-  }
-
   Future<bool> checkUserExists(String email) async {
     final usersRef = FirebaseFirestore.instance.collection('users');
     final snapshot =
@@ -46,15 +42,12 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> onEnterScreenSubmit() async {
     if (state is AuthUnauthenticatedState) {
       final currState = state as AuthUnauthenticatedState;
-      if (currState.field.value.length == 10) {
-        emit(OTPRequestedState(currState.field.value));
+
+      final condition = await checkUserExists(currState.email.value);
+      if (condition) {
+        emit(EmailSignInState(currState.email.value, false));
       } else {
-        final condition = await checkUserExists(currState.email.value);
-        if (condition) {
-          emit(EmailSignInState(currState.email.value, false));
-        } else {
-          emit(EmailSignUpState(currState.email.value, true, true, false));
-        }
+        emit(EmailSignUpState(currState.email.value, true, true, false));
       }
     }
   }
@@ -73,12 +66,6 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
       );
 
-      if (!auth.currentUser!.emailVerified) {
-        emit(
-          UnverifiedEmailAuthState(email, false),
-        );
-        return;
-      }
       //await fetchData();
       emit(AuthAuthenticatedState());
     } on FirebaseAuthException catch (error) {
@@ -132,16 +119,6 @@ class AuthCubit extends Cubit<AuthState> {
       debugPrint('Current state is : $currentState');
       emit(EmailSignInState(
           currentState.email, !currentState.isPasswordVisible));
-    } else if (state is UnverifiedEmailAuthState) {
-      final currentState = state as UnverifiedEmailAuthState;
-      debugPrint('Current state is : ${currentState}');
-      emit(UnverifiedEmailAuthState(
-          currentState.email, !currentState.isPasswordVisible));
-    } else if (state is EmailVerificationLinkSent) {
-      final currentState = state as EmailVerificationLinkSent;
-      debugPrint('Current state is : $currentState');
-      emit(EmailVerificationLinkSent(
-          currentState.email, !currentState.isPasswordVisible));
     }
   }
 
@@ -171,57 +148,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> signInWithPhone(String phoneNumber) async {
-    final formattedPhoneNumber = '+91$phoneNumber';
-    try {
-      verificationCompleted(PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential);
-        await enableLogging();
-        // await fetchData();
-      }
-
-      verificationFailed(FirebaseAuthException e) {
-        debugPrint('Error signing in verificatin failed: $e');
-        debugPrint('Error code: ${e.code}');
-        debugPrint('Error message: ${e.message}');
-        emit(AuthUnauthenticatedState());
-      }
-
-      codeSent(String verificationId, int? resendToken) {
-        emit(PhoneVerificationSent(verificationId, resendToken!, phoneNumber));
-      }
-
-      codeAutoRetrievalTimeout(String verificationId) {
-        debugPrint('Code auto retrieval timeout');
-        emit(PhoneAutoRetrievalTimeout(verificationId, phoneNumber));
-      }
-
-      if (kIsWeb) {
-        final confirmationResult = await auth
-            .signInWithPhoneNumber(phoneNumber = formattedPhoneNumber);
-        emit(OTPSentForWeb(confirmationResult, phoneNumber));
-      } else {
-        await auth.verifyPhoneNumber(
-          phoneNumber: formattedPhoneNumber,
-          verificationCompleted: verificationCompleted,
-          verificationFailed: verificationFailed,
-          codeSent: codeSent,
-          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-        );
-      }
-    } on FirebaseAuthException catch (error) {
-      // if (error.code.contains('invalid-verification-code')) {
-      //   emit(
-      //     OTPMismatchState(),
-      //   );
-      //   Future.delayed(const Duration(seconds: 3), () {
-      //     emit(PhoneVerificationSent(verificationId, rToken!));
-      //   });
-      //   return;
-      // }
-    }
-  }
-
   Future<void> passwordReset(String email) async {
     await auth.sendPasswordResetEmail(email: email);
     emit(EmailPasswordResetLinkSent(email, false));
@@ -231,25 +157,25 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthUnauthenticatedState());
   }
 
-  Future<void> signInWithWebOTP(
-    String smsCode,
-    ConfirmationResult confirmationResult,
-  ) async {
-    try {
-      final userCredential = await confirmationResult.confirm(smsCode);
+  // Future<void> signInWithWebOTP(
+  //   String smsCode,
+  //   ConfirmationResult confirmationResult,
+  // ) async {
+  //   try {
+  //     final userCredential = await confirmationResult.confirm(smsCode);
 
-      await createUserIfNotExists(
-        userCredential,
-        'phone',
-        userCredential.user!.phoneNumber!,
-      );
-      // await fetchData();
-      emit(AuthAuthenticatedState());
-    } catch (e) {
-      debugPrint('Error signing in: $e');
-      emit(AuthUnauthenticatedState());
-    }
-  }
+  //     await createUserIfNotExists(
+  //       userCredential,
+  //       'phone',
+  //       userCredential.user!.phoneNumber!,
+  //     );
+  //     // await fetchData();
+  //     emit(AuthAuthenticatedState());
+  //   } catch (e) {
+  //     debugPrint('Error signing in: $e');
+  //     emit(AuthUnauthenticatedState());
+  //   }
+  // }
 
   Future<void> signInWithVerificationCode(
     String verificationCode,
@@ -297,10 +223,10 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> enableLogging() async {
-    final headers = {
-      'Authorization': await getAuthToken(),
-      'Content-Type': 'application/json',
-    };
+    // final headers = {
+    //   'Authorization': await getAuthToken(),
+    //   'Content-Type': 'application/json',
+    // };
 
     try {
       // await http.post(
@@ -327,18 +253,15 @@ class AuthCubit extends Cubit<AuthState> {
         .then((userCredential) async {
       await enableLogging().then((_) async {
         await firestore
-            .collection('users')
+            .collection('students')
             .doc(userCredential.user!.uid)
             .set({'email': email}).catchError((onError) {
           debugPrint('Error adding doc $onError');
         });
       });
     });
-    await auth.currentUser?.sendEmailVerification().catchError(
-          (error) => debugPrint('Error sending email verification $onError'),
-        );
-    await auth.signOut();
-    emit(EmailVerificationLinkSent(email, false));
+
+    //await auth.signOut();
   }
 
   void signOut() {
@@ -368,15 +291,11 @@ class AuthCubit extends Cubit<AuthState> {
       final currState = state as AuthUnauthenticatedState;
       final inputStatus = checkStringType(currState.field.value);
 
-      if (inputStatus == true && currState.field.value.length == 10) {
-        emit(OTPRequestedState(currState.field.value));
+      final signCondition = await checkUserExists(currState.field.value);
+      if (signCondition) {
+        emit(EmailSignInState(currState.field.value, true));
       } else {
-        final signCondition = await checkUserExists(currState.field.value);
-        if (signCondition) {
-          emit(EmailSignInState(currState.field.value, true));
-        } else {
-          emit(EmailSignUpState(currState.field.value, true, true, false));
-        }
+        emit(EmailSignUpState(currState.field.value, true, true, false));
       }
     }
   }

@@ -50,7 +50,7 @@ class UserType extends StatelessWidget {
                   onTap: () {
                     navigatorKey.currentState?.push(MaterialPageRoute(
                         builder: (context) =>
-                            const App(userType: 'Authority')));
+                            const App(userType: 'authority')));
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
@@ -64,7 +64,7 @@ class UserType extends StatelessWidget {
                   onTap: () {
                     navigatorKey.currentState?.push(MaterialPageRoute(
                         builder: (context) =>
-                            const App(userType: 'Committee')));
+                            const App(userType: 'committee')));
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
@@ -77,14 +77,14 @@ class UserType extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     navigatorKey.currentState?.push(MaterialPageRoute(
-                        builder: (context) => const App(userType: 'User')));
+                        builder: (context) => const App(userType: 'student')));
                   },
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.3,
                       height: MediaQuery.of(context).size.height * 0.05,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black)),
-                      child: const Center(child: AutoSizeText('User'))),
+                      child: const Center(child: AutoSizeText('Student'))),
                 ),
               ],
             ),

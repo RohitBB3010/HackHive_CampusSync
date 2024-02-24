@@ -23,27 +23,6 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authState = authCubit.state;
-
-      if (authState is UnverifiedEmailAuthState) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Email Unverified'),
-            action: SnackBarAction(
-              label: 'Resend Verification Link',
-              onPressed: () {
-                try {
-                  FirebaseAuth.instance.currentUser?.sendEmailVerification();
-                } catch (e) {
-                  debugPrint('$e');
-                }
-              },
-            ),
-          ),
-        );
-      }
-    });
 
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;

@@ -24,30 +24,7 @@ class SignInForm extends StatelessWidget {
     final authCubit = context.read<AuthCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authState = authCubit.state;
-      if (authState is EmailVerificationLinkSent) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Kindly check email for verification link'),
-          ),
-        );
-      }
-      if (authState is UnverifiedEmailAuthState) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Email Unverified'),
-            action: SnackBarAction(
-              label: 'Resend Verification Link',
-              onPressed: () {
-                try {
-                  FirebaseAuth.instance.currentUser?.sendEmailVerification();
-                } catch (e) {
-                  debugPrint('$e');
-                }
-              },
-            ),
-          ),
-        );
-      }
+
       if (authState is EmailPasswordResetLinkSent) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

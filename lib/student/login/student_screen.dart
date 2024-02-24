@@ -19,26 +19,6 @@ class StudentScreen extends StatelessWidget {
       create: (context) => AuthCubit()..checkAuth(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, authState) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (authState is UnverifiedEmailAuthState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Email Unverified'),
-                  action: SnackBarAction(
-                    label: 'Resend Verification Link',
-                    onPressed: () {
-                      try {
-                        FirebaseAuth.instance.currentUser
-                            ?.sendEmailVerification();
-                      } catch (e) {
-                        debugPrint('$e');
-                      }
-                    },
-                  ),
-                ),
-              );
-            }
-          });
           if (authState is AuthAuthenticatedState) {
             debugPrint('$authState');
             return const DisplayScreen();
@@ -51,7 +31,9 @@ class StudentScreen extends StatelessWidget {
             );
           } else {
             debugPrint('$authState');
-            return const LoginScreen();
+            return const LoginScreen(
+              userType: '',
+            );
           }
         },
       ),

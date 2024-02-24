@@ -34,7 +34,8 @@ class App extends StatelessWidget {
         child: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthAuthenticatedState) {
-              return AuthorityScreen();
+              // return AuthorityScreen();
+              return Text('home');
             } else if (state is AuthLoadingState) {
               return const Scaffold(
                 body: Center(
