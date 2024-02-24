@@ -46,14 +46,6 @@ class MandatoryFields extends StatelessWidget {
                       onPressed: () {
                         context.read<AuthCubit>().signOut();
                       }),
-                  //       const Expanded(
-                  //         child: Center(
-                  //           child: AutoSizeText(
-                  //             'DentPlusBytes',
-                  //             style: TextStyle(fontFamily: 'Euclid', fontSize: 30),
-                  //           ),
-                  //         ),
-                  //       ),
                 ],
               ),
             ),
@@ -72,15 +64,6 @@ class MandatoryFields extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Container(
-                        //   margin: const EdgeInsets.only(top: 20),
-                        //   height: screenHeight * 0.08,
-                        //   width: screenWidth * 0.6,
-                        //   child: Image.asset("rankUP_banner.png"),
-                        // ),
-                        //heightBetweenFields(screenHeight),
-                        // Lottie.asset("login_animation_2.json",
-                        //     height: screenHeight * 0.3),
                         const AutoSizeText(
                           'Your details matter',
                           style: TextStyle(
@@ -145,36 +128,6 @@ class MandatoryFields extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.05,
                               ),
-                              // Container(
-                              //   width:
-                              //       MediaQuery.of(context).size.width *
-                              //           0.2,
-                              //   color: const Color(0xff0057ff),
-                              //   child: ElevatedButton(
-                              //     child: const Padding(
-                              //       padding: EdgeInsets.all(5),
-                              //       child: Text(
-                              //         'Save',
-                              //         style: TextStyle(
-                              //           fontFamily: 'Euclid',
-                              //           fontSize: 20,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     onPressed: () {
-                              //       if (_formkey.currentState!
-                              //           .validate()) {
-                              //         context
-                              //             .read<MandatoryFieldsCubit>()
-                              //             .setUpdateMandatoryFields(
-                              //               context
-                              //                   .read<AuthCubit>()
-                              //                   .uid,
-                              //             );
-                              //       }
-                              //     },
-                              //   ),
-                              // ),
                               CustomElevatedButton(
                                   title: 'Save',
                                   color: secondary_2,

@@ -107,9 +107,7 @@ Widget buildNonUnauthenticatedView(AuthState state) {
     return const SignInForm();
   } else if (state is EmailSignUpState) {
     debugPrint('$state');
-    // return const LoaderOverlay(
-    //   child: SignUpForm(),
-    // );
+
     return SignUpForm();
   } else {
     debugPrint('$state');
