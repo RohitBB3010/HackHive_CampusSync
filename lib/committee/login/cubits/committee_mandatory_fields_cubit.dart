@@ -1,19 +1,21 @@
 import 'package:bloc/bloc.dart';
-import 'package:campus_sync/consts/fb_user.dart';
+import 'package:campus_sync/committee/login/forms/committee_mandatory_field_state.dart';
+import 'package:campus_sync/consts/fb_const.dart';
 import 'package:campus_sync/form_fields.dart';
-import 'package:campus_sync/home/forms/mandatory_field_state.dart';
+import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
-import 'package:campus_sync/home/models/user.dart';
+import 'package:campus_sync/student/login/models/user.dart';
 
-class MandatoryFieldsCubit extends Cubit<MandatoryFieldState> {
-  MandatoryFieldsCubit() : super(MandatoryFieldState());
+class CommitteeMandatoryFieldsCubit
+    extends Cubit<CommitteeMandatoryFieldState> {
+  CommitteeMandatoryFieldsCubit() : super(CommitteeMandatoryFieldState());
 
   bool initialDataRendered = false;
 
   void fetchMandatoryFieldsData(String userID) {
     FirebaseFirestore.instance
-        .collection(FBUserConsts.collUsers)
+        .collection(FBCommitteeConsts.collCommittee)
         .doc(userID)
         .get()
         .then((value) {
@@ -39,11 +41,11 @@ class MandatoryFieldsCubit extends Cubit<MandatoryFieldState> {
       email: state.email.value,
     );
     FirebaseFirestore.instance
-        .collection(FBUserConsts.collUsers)
+        .collection(FBCommitteeConsts.collCommittee)
         .doc(userID)
         .set(user.toJson(), SetOptions(merge: true))
         .then((value) {
-      emit(DataFilledActionState());
+      emit(CommitteeDataFilledActionState());
     });
   }
 
@@ -78,18 +80,18 @@ class MandatoryFieldsCubit extends Cubit<MandatoryFieldState> {
     // Checks if details such as email, phone and name are filled
 
     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection(FBUserConsts.collUsers)
+        .collection(FBCommitteeConsts.collCommittee)
         .doc(userID)
         .get();
 
     final data = snapshot.data() as Map<String, dynamic>?;
-    final hasEmail = data!.containsKey(FBUserConsts.fieldEmail) &&
-        data[FBUserConsts.fieldEmail] != null;
-    final hasPhoneNo = data.containsKey(FBUserConsts.fieldPhone) &&
-        data[FBUserConsts.fieldPhone] != null;
+    final hasEmail = data!.containsKey(FBCommitteeConsts.fieldEmail) &&
+        data[FBCommitteeConsts.fieldEmail] != null;
+    final hasPhoneNo = data.containsKey(FBCommitteeConsts.fieldPhone) &&
+        data[FBCommitteeConsts.fieldPhone] != null;
 
-    final hasName = data.containsKey(FBUserConsts.fieldName) &&
-        data[FBUserConsts.fieldName] != null;
+    final hasName = data.containsKey(FBCommitteeConsts.fieldName) &&
+        data[FBCommitteeConsts.fieldName] != null;
 
     emit(
       state.copyWith(

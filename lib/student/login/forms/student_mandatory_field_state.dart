@@ -1,13 +1,13 @@
 import 'package:campus_sync/form_fields.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:campus_sync/home/states/check_state.dart';
+import 'package:campus_sync/student/login/states/check_state.dart';
 import 'package:formz/formz.dart';
 
-part 'mandatory_field_state.g.dart';
+part 'student_mandatory_field_state.g.dart';
 
 @CopyWith()
-class MandatoryFieldState extends CheckState with FormzMixin {
-  MandatoryFieldState({
+class StudentMandatoryFieldState extends CheckState with FormzMixin {
+  StudentMandatoryFieldState({
     this.name = const RequiredTextInput.pure(),
     this.email = const Email.pure(),
     this.phone = const Phone.pure(),
@@ -33,4 +33,4 @@ class MandatoryFieldState extends CheckState with FormzMixin {
       ];
 }
 
-class DataFilledActionState extends MandatoryFieldState {}
+class DataFilledActionState extends StudentMandatoryFieldState {}

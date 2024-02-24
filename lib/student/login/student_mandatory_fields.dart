@@ -4,15 +4,15 @@ import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/components/text_button.dart';
 import 'package:campus_sync/consts/colors.dart';
-import 'package:campus_sync/home/cubits/check_cubit.dart';
-import 'package:campus_sync/home/cubits/mandatory_fields_cubit.dart';
-import 'package:campus_sync/home/forms/mandatory_field_state.dart';
+import 'package:campus_sync/student/login/cubits/check_cubit.dart';
+import 'package:campus_sync/student/login/cubits/student_mandatory_fields_cubit.dart';
+import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MandatoryFields extends StatelessWidget {
-  MandatoryFields({super.key});
+class StudentMandatoryFields extends StatelessWidget {
+  StudentMandatoryFields({super.key});
 
   final _formkey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -25,10 +25,11 @@ class MandatoryFields extends StatelessWidget {
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
     return BlocProvider(
-      create: (context) => MandatoryFieldsCubit()
+      create: (context) => StudentMandatoryFieldsCubit()
         ..fetchMandatoryFieldsData(context.read<AuthCubit>().uid)
         ..checkDetailsFilled(context.read<AuthCubit>().uid),
-      child: BlocConsumer<MandatoryFieldsCubit, MandatoryFieldState>(
+      child:
+          BlocConsumer<StudentMandatoryFieldsCubit, StudentMandatoryFieldState>(
         buildWhen: (previous, current) => current is! DataFilledActionState,
         listenWhen: (previous, current) => current is DataFilledActionState,
         listener: (context, state) {
@@ -57,15 +58,19 @@ class MandatoryFields extends StatelessWidget {
                 ],
               ),
             ),
-            body: BlocBuilder<MandatoryFieldsCubit, MandatoryFieldState>(
+            body: BlocBuilder<StudentMandatoryFieldsCubit,
+                StudentMandatoryFieldState>(
               builder: (context, state) {
                 if (state.initialFieldsRendered &&
-                    !context.read<MandatoryFieldsCubit>().initialDataRendered) {
+                    !context
+                        .read<StudentMandatoryFieldsCubit>()
+                        .initialDataRendered) {
                   nameController.text = state.name.value;
                   clinicPhoneController.text = state.phone.value;
                   emailController.text = state.email.value;
-                  context.read<MandatoryFieldsCubit>().initialDataRendered =
-                      true;
+                  context
+                      .read<StudentMandatoryFieldsCubit>()
+                      .initialDataRendered = true;
                 }
                 return SingleChildScrollView(
                   child: Center(
@@ -101,7 +106,7 @@ class MandatoryFields extends StatelessWidget {
                                 child: CustomTextField(
                                   labelText: 'Name',
                                   onChanged: context
-                                      .read<MandatoryFieldsCubit>()
+                                      .read<StudentMandatoryFieldsCubit>()
                                       .nameChanged,
                                   controller: nameController,
                                   errorText: state.name.error,
@@ -118,7 +123,7 @@ class MandatoryFields extends StatelessWidget {
                                   labelText: 'Phone No',
                                   prefixText: '+91',
                                   onChanged: context
-                                      .read<MandatoryFieldsCubit>()
+                                      .read<StudentMandatoryFieldsCubit>()
                                       .clinicPhoneChanged,
                                   controller: clinicPhoneController,
                                   errorText: state.phone.error,
@@ -134,7 +139,7 @@ class MandatoryFields extends StatelessWidget {
                                 child: CustomTextField(
                                   labelText: 'Email',
                                   onChanged: context
-                                      .read<MandatoryFieldsCubit>()
+                                      .read<StudentMandatoryFieldsCubit>()
                                       .emailChanged,
                                   controller: emailController,
                                   errorText: state.email.error,
@@ -165,7 +170,7 @@ class MandatoryFields extends StatelessWidget {
                               //       if (_formkey.currentState!
                               //           .validate()) {
                               //         context
-                              //             .read<MandatoryFieldsCubit>()
+                              //             .read<StudentMandatoryFieldsCubit>()
                               //             .setUpdateMandatoryFields(
                               //               context
                               //                   .read<AuthCubit>()
@@ -181,7 +186,7 @@ class MandatoryFields extends StatelessWidget {
                                   onPressed: () {
                                     if (_formkey.currentState!.validate()) {
                                       context
-                                          .read<MandatoryFieldsCubit>()
+                                          .read<StudentMandatoryFieldsCubit>()
                                           .setUpdateMandatoryFields(
                                             context.read<AuthCubit>().uid,
                                           );

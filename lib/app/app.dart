@@ -3,7 +3,7 @@ import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/consts/colors.dart';
-import 'package:campus_sync/home/home.dart';
+import 'package:campus_sync/student/login/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +14,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: primary_3,
+        scaffoldBackgroundColor: primary_2,
         appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 3, 128, 232)),
         colorScheme: ColorScheme.fromSwatch(
           accentColor: const Color(0xFF13B9FF),
