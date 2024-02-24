@@ -47,7 +47,8 @@ class CustomElevatedButton extends StatelessWidget {
             if (icon != null) widthBetweenFields_2(context),
             AutoSizeText(
               title,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
+              maxLines: 1,
+              style: const TextStyle(color: Colors.white, fontSize: 30),
             ),
           ],
         ),

@@ -28,52 +28,106 @@ class LoginForm extends StatelessWidget {
   String? selectedValue;
   @override
   Widget build(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
 
     return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: screenWidth * 0.9,
-              child: CustomTextField(
-                  onChanged: context.read<AuthCubit>().textValueChanged,
-                  labelText: TextString.enterEmailPhone,
-                  icon: Icons.person,
-                  validator: (value) {
-                    if (double.tryParse(value!) != null && value.length < 10) {
-                      return TextString.validPhone;
-                    } else if (value.contains('@') != true &&
-                        value.isNotEmpty &&
-                        value.length != 10) {
-                      return TextString.validEmail;
-                    }
-                    return null;
-                  }),
-            ),
-            heightBetweenFields_1(context),
-            CustomDropDown(
-                items: userType.map((e) {
-                  return DropdownMenuItem<String>(
-                      value: e, child: AutoSizeText(e));
-                }).toList(),
-                dropdownHeight: MediaQuery.of(context).size.height * 0.05,
-                dropdownWidth: MediaQuery.of(context).size.width * 0.05,
-                hint: const AutoSizeText('Select user type')),
-            CustomElevatedButton(
-              title: 'Submit',
-              icon: FontAwesomeIcons.check,
-              //color: ButtonThemeData,
-              onPressed: context.read<AuthCubit>().onClickSubmit,
-            ),
-          ],
+        child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: screenWidth * 0.9,
+            child: CustomTextField(
+                onChanged: context.read<AuthCubit>().textValueChanged,
+                labelText: TextString.enterEmailPhone,
+                icon: Icons.person,
+                validator: (value) {
+                  if (double.tryParse(value!) != null && value.length < 10) {
+                    return TextString.validPhone;
+                  } else if (value.contains('@') != true &&
+                      value.isNotEmpty &&
+                      value.length != 10) {
+                    return TextString.validEmail;
+                  }
+                  return null;
+                }),
+          ),
+          heightBetweenFields_1(context),
+          CustomDropDown(
+              items: userType.map((e) {
+                return DropdownMenuItem<String>(
+                    value: e, child: AutoSizeText(e));
+              }).toList(),
+              dropdownHeight: MediaQuery.of(context).size.height * 0.05,
+              dropdownWidth: MediaQuery.of(context).size.width * 0.05,
+              hint: const AutoSizeText('Select user type')),
+          CustomElevatedButton(
+            title: 'Submit',
+            icon: FontAwesomeIcons.check,
+            //color: ButtonThemeData,
+            onPressed: context.read<AuthCubit>().onClickSubmit,
+          ),
+        ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              //heightBetweenFields_1(context),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.25,
+                child: const Image(
+                    image: AssetImage("assets/logos/cs_banner.png")),
+              ),
+              SizedBox(
+                width: screenWidth * 0.8,
+                child: CustomTextField(
+                    onChanged: context.read<AuthCubit>().textValueChanged,
+                    labelText: TextString.enterEmailPhone,
+                    icon: Icons.person,
+                    validator: (value) {
+                      if (double.tryParse(value!) != null &&
+                          value.length < 10) {
+                        return TextString.validPhone;
+                      } else if (value.contains('@') != true &&
+                          value.isNotEmpty &&
+                          value.length != 10) {
+                        return TextString.validEmail;
+                      }
+                      return null;
+                    }),
+              ),
+              heightBetweenFields_1(context),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(5.0)),
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: CustomDropDown(
+                    items: userType.map((e) {
+                      return DropdownMenuItem<String>(
+                          value: e, child: AutoSizeText(e));
+                    }).toList(),
+                    dropdownHeight: MediaQuery.of(context).size.height * 0.05,
+                    dropdownWidth: MediaQuery.of(context).size.width * 0.05,
+                    hint: const AutoSizeText(
+                      'Select user type',
+                      maxLines: 1,
+                      style: TextStyle(color: Colors.black, fontSize: 20.0),
+                    )),
+              ),
+              heightBetweenFields_1(context),
+              CustomElevatedButton(
+                buttonHeight: MediaQuery.of(context).size.height * 0.06,
+                buttonWidth: MediaQuery.of(context).size.width * 0.8,
+                title: 'Submit',
+                onPressed: context.read<AuthCubit>().onClickSubmit,
+              ),
+            ],
+          ),
         ),
       ),
-    );
+    ));
   }
 }

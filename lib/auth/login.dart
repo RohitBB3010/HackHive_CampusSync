@@ -17,10 +17,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authState = authCubit.state;
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
 
     return SafeArea(
       child: Center(

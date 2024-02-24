@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:campus_sync/consts/colors.dart';
 
@@ -13,8 +14,13 @@ class CustomTextButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         foregroundColor: secondary_2,
+        padding: const EdgeInsets.all(0),
       ),
-      child: Text(title),
+      child: AutoSizeText(
+        title,
+        maxLines: 1,
+        style: const TextStyle(fontSize: 20),
+      ),
     );
   }
 }
