@@ -2,39 +2,19 @@ import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
 import 'package:campus_sync/components/elevated_button.dart';
-import 'package:campus_sync/home/cubits/check_cubit.dart';
-import 'package:campus_sync/home/mandatory_fields.dart';
-import 'package:campus_sync/home/states/check_state.dart';
+import 'package:campus_sync/student/login/cubits/check_cubit.dart';
+import 'package:campus_sync/student/login/student_mandatory_fields.dart';
+import 'package:campus_sync/student/login/states/check_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class StudentScreen extends StatelessWidget {
+  StudentScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //   return StreamBuilder(
-    //     stream: AuthService().userStream,
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(
-    //           child: Text('Loading'),
-    //         );
-    //       } else if (snapshot.hasError) {
-    //         return const Center(
-    //           child: Text('Error'),
-    //         );
-    //       } else if (snapshot.hasData) {
-    //         return const TopicsScreen();
-    //       } else {
-    //         return const LoginScreen();
-    //       }
-    //     },
-    //   );
-    // }
-
     return BlocProvider(
       create: (context) => AuthCubit()..checkAuth(),
       child: BlocBuilder<AuthCubit, AuthState>(
@@ -90,7 +70,7 @@ class DisplayScreen extends StatelessWidget {
       child: BlocBuilder<CheckCubit, CheckState>(
         builder: (context, state) {
           if (state is DataUnavailableState) {
-            return MandatoryFields();
+            return StudentMandatoryFields();
           } else if (state is CheckLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else {

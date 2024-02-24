@@ -1,38 +1,50 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
+import 'package:campus_sync/authority/login/cubits/authority_mandatory_fields_cubit.dart';
+import 'package:campus_sync/authority/login/cubits/check_cubit.dart';
+import 'package:campus_sync/authority/login/forms/authority_mandatory_field_state.dart';
 import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/components/text_button.dart';
 import 'package:campus_sync/consts/colors.dart';
-import 'package:campus_sync/home/cubits/check_cubit.dart';
-import 'package:campus_sync/home/cubits/mandatory_fields_cubit.dart';
-import 'package:campus_sync/home/forms/mandatory_field_state.dart';
-
+import 'package:campus_sync/consts/empty_spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
-class MandatoryFields extends StatelessWidget {
-  MandatoryFields({super.key});
+class AuthorityMandatoryFields extends StatelessWidget {
+  AuthorityMandatoryFields({super.key});
 
   final _formkey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final clinicPhoneController = TextEditingController();
   final emailController = TextEditingController();
-
+  String? selectedValue;
+  final List<String> committees = [
+    'CSI',
+    'CESA',
+    'ITSA',
+    'IEEE',
+    'GDSC',
+    'SC',
+  ];
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
     return BlocProvider(
-      create: (context) => MandatoryFieldsCubit()
+      create: (context) => AuthorityMandatoryFieldsCubit()
         ..fetchMandatoryFieldsData(context.read<AuthCubit>().uid)
         ..checkDetailsFilled(context.read<AuthCubit>().uid),
-      child: BlocConsumer<MandatoryFieldsCubit, MandatoryFieldState>(
-        buildWhen: (previous, current) => current is! DataFilledActionState,
-        listenWhen: (previous, current) => current is DataFilledActionState,
+      child: BlocConsumer<AuthorityMandatoryFieldsCubit,
+          AuthorityMandatoryFieldState>(
+        buildWhen: (previous, current) =>
+            current is! AuthorityDataFilledActionState,
+        listenWhen: (previous, current) =>
+            current is AuthorityDataFilledActionState,
         listener: (context, state) {
-          if (state is DataFilledActionState) {
+          if (state is AuthorityDataFilledActionState) {
             context.read<CheckCubit>().emitAllDataPresentState();
           }
         },
@@ -49,15 +61,19 @@ class MandatoryFields extends StatelessWidget {
                 ],
               ),
             ),
-            body: BlocBuilder<MandatoryFieldsCubit, MandatoryFieldState>(
+            body: BlocBuilder<AuthorityMandatoryFieldsCubit,
+                AuthorityMandatoryFieldState>(
               builder: (context, state) {
                 if (state.initialFieldsRendered &&
-                    !context.read<MandatoryFieldsCubit>().initialDataRendered) {
+                    !context
+                        .read<AuthorityMandatoryFieldsCubit>()
+                        .initialDataRendered) {
                   nameController.text = state.name.value;
                   clinicPhoneController.text = state.phone.value;
                   emailController.text = state.email.value;
-                  context.read<MandatoryFieldsCubit>().initialDataRendered =
-                      true;
+                  context
+                      .read<AuthorityMandatoryFieldsCubit>()
+                      .initialDataRendered = true;
                 }
                 return SingleChildScrollView(
                   child: Center(
@@ -75,66 +91,67 @@ class MandatoryFields extends StatelessWidget {
                           key: _formkey,
                           child: Column(
                             children: [
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                              ),
+                              heightBetweenFields_2(context),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: CustomTextField(
                                   labelText: 'Name',
                                   onChanged: context
-                                      .read<MandatoryFieldsCubit>()
+                                      .read<AuthorityMandatoryFieldsCubit>()
                                       .nameChanged,
                                   controller: nameController,
                                   errorText: state.name.error,
                                   enabled: !state.hasName,
                                 ),
                               ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                              ),
+                              heightBetweenFields_2(context),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: CustomTextField(
                                   labelText: 'Phone No',
                                   prefixText: '+91',
                                   onChanged: context
-                                      .read<MandatoryFieldsCubit>()
-                                      .clinicPhoneChanged,
+                                      .read<AuthorityMandatoryFieldsCubit>()
+                                      .phoneChanged,
                                   controller: clinicPhoneController,
                                   errorText: state.phone.error,
                                   enabled: !state.hasPhoneNo,
                                 ),
                               ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                              ),
+                              heightBetweenFields_2(context),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: CustomTextField(
                                   labelText: 'Email',
                                   onChanged: context
-                                      .read<MandatoryFieldsCubit>()
+                                      .read<AuthorityMandatoryFieldsCubit>()
                                       .emailChanged,
                                   controller: emailController,
                                   errorText: state.email.error,
                                   enabled: !state.hasEmail,
                                 ),
                               ),
+                              heightBetweenFields_2(context),
                               SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                child: CustomTextField(
+                                  labelText: 'Role',
+                                  onChanged: context
+                                      .read<AuthorityMandatoryFieldsCubit>()
+                                      .roleChanged,
+                                  controller: emailController,
+                                  errorText: state.email.error,
+                                  enabled: !state.hasEmail,
+                                ),
                               ),
+                              heightBetweenFields_2(context),
                               CustomElevatedButton(
                                   title: 'Save',
                                   color: secondary_2,
                                   onPressed: () {
                                     if (_formkey.currentState!.validate()) {
                                       context
-                                          .read<MandatoryFieldsCubit>()
+                                          .read<AuthorityMandatoryFieldsCubit>()
                                           .setUpdateMandatoryFields(
                                             context.read<AuthCubit>().uid,
                                           );
