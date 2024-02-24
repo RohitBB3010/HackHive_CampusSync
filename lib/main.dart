@@ -1,5 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/components/custom_appBar.dart';
+import 'package:campus_sync/components/event_Card.dart';
 import 'package:campus_sync/consts/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        scaffoldBackgroundColor: primary_3,
+        scaffoldBackgroundColor: primary_2,
         useMaterial3: true,
       ),
       home: const DefaultTextStyle(
@@ -38,6 +38,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: CustomAppBar(
+        context: context,
+        titleText: 'Profile',
+        icon: Icons.person,
+      ),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            EventCard(
+              eventName: 'Taabir - An Poetry Evening',
+              committeeName: 'Literary Council',
+              venue: 'M203',
+              schedule: DateTime(2024, 01, 30, 16, 00),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
