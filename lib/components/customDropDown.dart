@@ -27,6 +27,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton2(
+      isExpanded: true,
       items: widget.items,
       onChanged: (String? value) {
         if (value != null && widget.items.any((item) => item.value == value)) {
