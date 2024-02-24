@@ -32,43 +32,7 @@ class LoginForm extends StatelessWidget {
     final screenWidth = screenSize.width;
 
     return SafeArea(
-        child: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: screenWidth * 0.9,
-            child: CustomTextField(
-                onChanged: context.read<AuthCubit>().textValueChanged,
-                labelText: TextString.enterEmailPhone,
-                icon: Icons.person,
-                validator: (value) {
-                  if (double.tryParse(value!) != null && value.length < 10) {
-                    return TextString.validPhone;
-                  } else if (value.contains('@') != true &&
-                      value.isNotEmpty &&
-                      value.length != 10) {
-                    return TextString.validEmail;
-                  }
-                  return null;
-                }),
-          ),
-          heightBetweenFields_1(context),
-          CustomDropDown(
-              items: userType.map((e) {
-                return DropdownMenuItem<String>(
-                    value: e, child: AutoSizeText(e));
-              }).toList(),
-              dropdownHeight: MediaQuery.of(context).size.height * 0.05,
-              dropdownWidth: MediaQuery.of(context).size.width * 0.05,
-              hint: const AutoSizeText('Select user type')),
-          CustomElevatedButton(
-            title: 'Submit',
-            icon: FontAwesomeIcons.check,
-            //color: ButtonThemeData,
-            onPressed: context.read<AuthCubit>().onClickSubmit,
-          ),
-        ],
+      child: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -128,6 +92,6 @@ class LoginForm extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    );
   }
 }
