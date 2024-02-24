@@ -5,6 +5,10 @@ import 'package:campus_sync/auth/states/auth_state.dart';
 import 'package:campus_sync/auth/states/phone_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:campus_sync/components/custom_text_field.dart';
+import 'package:campus_sync/components/elevated_button.dart';
+import 'package:campus_sync/consts/empty_spaces.dart';
+import 'package:campus_sync/components/text_button.dart';
 
 class PhoneView extends StatelessWidget {
   const PhoneView({super.key});

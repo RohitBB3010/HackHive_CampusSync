@@ -5,6 +5,9 @@ import 'package:campus_sync/auth/states/auth_state.dart';
 import 'package:campus_sync/auth/states/sign_up_state.dart' as form_state;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:campus_sync/components/custom_text_field.dart';
+import 'package:campus_sync/components/elevated_button.dart';
+import 'package:campus_sync/components/text_button.dart';
 
 class TextString {
   static const String signUp = 'Sign Up';
