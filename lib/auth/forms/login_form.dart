@@ -83,9 +83,9 @@ class LoginForm extends StatelessWidget {
               ),
               heightBetweenFields_1(context),
               CustomElevatedButton(
+                buttonHeight: MediaQuery.of(context).size.height * 0.06,
+                buttonWidth: MediaQuery.of(context).size.width * 0.8,
                 title: 'Submit',
-                icon: FontAwesomeIcons.check,
-                //color: ButtonThemeData,
                 onPressed: context.read<AuthCubit>().onClickSubmit,
               ),
             ],
