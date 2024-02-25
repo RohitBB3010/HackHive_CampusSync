@@ -1,99 +1,91 @@
-import 'package:bloc/bloc.dart';
-import 'package:campus_sync/committee/login/forms/committee_mandatory_field_state.dart';
+import 'package:campus_sync/committee/login/forms/committee_mandatory_state.dart';
 import 'package:campus_sync/committee/login/models/committee.dart';
+import 'package:campus_sync/committee/login/states/check_state.dart';
 import 'package:campus_sync/consts/fb_const.dart';
 import 'package:campus_sync/form_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CommitteeMandatoryFieldsCubit
-    extends Cubit<CommitteeMandatoryFieldState> {
-  CommitteeMandatoryFieldsCubit() : super(CommitteeMandatoryFieldState());
+class CommitteeMandatoryFieldsCubit extends Cubit<CommitteeMandatoryState> {
+  CommitteeMandatoryFieldsCubit() : super(CommitteeMandatoryState());
 
   bool initialDataRendered = false;
 
-  void fetchMandatoryFieldsData(String userID) {
+  void fetchMandatoryFieldsData(String userId) {
     FirebaseFirestore.instance
-        .collection(FBCommitteeConsts.collCommittee)
-        .doc(userID)
+        .collection(FBCommitteeConsts.FieldCommittee)
+        .doc(userId)
         .get()
         .then((value) {
       final committee = Committee.fromJson(value.data()!);
 
-      emit(
-        state.copyWith(
-          name: RequiredTextInput.dirty(committee.committeeName),
-          email: Email.dirty(committee.email),
-          convener: RequiredTextInput.dirty(committee.committeeConvener),
-          initialFieldsRendered: true,
-        ),
-      );
+      emit(state.copyWith(
+          committeeName: RequiredTextInput.dirty(committee.committeeName!),
+          committeeEmail: Email.dirty(committee.committeeEmail!),
+          convener: RequiredTextInput.dirty(committee.convener!),
+          members: committee.members,
+          initialDataRendered: true));
     });
   }
 
-  void setUpdateMandatoryFields(String userID) {
+  void setUpdateCommitteeMandatoryFields(String userId) {
     final committee = Committee(
-        committeeName: state.name.value,
-        committeeConvener: state.convener.value,
-        email: state.email.value,
-        members: []);
+        committeeName: state.committeeName.value,
+        committeeEmail: state.committeeEmail.value,
+        convener: state.convener.value,
+        members: state.members);
 
     FirebaseFirestore.instance
-        .collection(FBCommitteeConsts.collCommittee)
-        .doc(userID)
+        .collection(FBCommitteeConsts.FieldCommittee)
+        .doc(userId)
         .set(committee.toJson(), SetOptions(merge: true))
-        .then((value) {
-      emit(CommitteeDataFilledActionState());
-    });
+        .then((value) => emit(CommitteeDataFilledState()));
   }
 
-  void nameChanged(String value) {
-    final name = RequiredTextInput.dirty(value);
-    emit(
-      state.copyWith(
-        name: name,
-      ),
-    );
+  void committeeNameChanged(String value) {
+    final committeeName = RequiredTextInput.dirty(value);
+    emit(state.copyWith(
+      committeeName: committeeName,
+    ));
   }
 
-  void conveverChanged(String value) {
+  void committeeEmailChanged(String value) {
+    final committeeEmail = Email.dirty(value);
+    emit(state.copyWith(
+      committeeEmail: committeeEmail,
+    ));
+  }
+
+  void committeeConvenerChanged(String value) {
     final convener = RequiredTextInput.dirty(value);
     emit(state.copyWith(
       convener: convener,
     ));
   }
 
-  void emailChanged(String value) {
-    final email = Email.dirty(value);
-    emit(
-      state.copyWith(
-        email: email,
-      ),
-    );
-  }
-
   Future<void> checkDetailsFilled(String userID) async {
-    // Checks if details such as email, phone and name are filled
-
     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection(FBCommitteeConsts.collCommittee)
+        .collection(FBCommitteeConsts.FieldCommittee)
         .doc(userID)
         .get();
 
-    final data = snapshot.data() as Map<String, dynamic>?;
-    final hasEmail = data!.containsKey(FBCommitteeConsts.fieldEmail) &&
-        data[FBCommitteeConsts.fieldEmail] != null;
-    final hasConvener = data.containsKey(FBCommitteeConsts.fieldConvener) &&
-        data[FBCommitteeConsts.fieldConvener] != null;
+    if (snapshot.data() != null) {
+      final data = snapshot.data()! as Map<String, dynamic>;
 
-    final hasName = data.containsKey(FBCommitteeConsts.fieldName) &&
-        data[FBCommitteeConsts.fieldName] != null;
+      final hasEmail =
+          data.containsKey(FBCommitteeConsts.fieldCommitteeEmail) &&
+              data[FBCommitteeConsts.fieldCommitteeEmail] != null;
+      final hasName = data.containsKey(FBCommitteeConsts.fieldCommitteeName) &&
+          data[FBCommitteeConsts.fieldCommitteeName] != null;
+      final hasConvener = data.containsKey(FBCommitteeConsts.fieldConvener) &&
+          data[FBCommitteeConsts.fieldConvener] != null;
 
-    emit(
-      state.copyWith(
-        hasEmail: hasEmail,
+      emit(state.copyWith(
+        hasCommitteeEmail: hasEmail,
         hasConvener: hasConvener,
-        hasName: hasName,
-      ),
-    );
+        hasCommitteeName: hasName,
+      ));
+    }
   }
 }

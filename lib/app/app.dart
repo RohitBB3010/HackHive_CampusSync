@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
@@ -50,6 +51,7 @@ class App extends StatelessWidget {
                 return const AuthorityScreen();
               } else if (authCubit.usersType == 'Committee') {
                 return CommitteeScreen();
+                //return AutoSizeText('Rohit');
               } else
                 return Column(
                   children: [
@@ -66,6 +68,7 @@ class App extends StatelessWidget {
               return AuthorityScreen();
             } else if (state is CommitteeSignInState) {
               return CommitteeScreen();
+              //return AutoSizeText('Rohit');
             } else if (state is AuthLoadingState) {
               return const Scaffold(
                 body: Center(

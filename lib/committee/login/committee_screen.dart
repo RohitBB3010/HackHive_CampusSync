@@ -48,7 +48,7 @@ class DisplayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CheckCommitteeCubit()
-        ..checkUserDataStatus(context.read<AuthCubit>().uid),
+        ..checkCommitteeDataStatus(context.read<AuthCubit>().uid),
       child: BlocBuilder<CheckCommitteeCubit, CheckCommitteeState>(
         builder: (context, state) {
           if (state is CommitteeDataUnavailableState) {

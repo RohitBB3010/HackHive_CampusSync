@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:campus_sync/authority/login/forms/authority_mandatory_field_state.dart';
 import 'package:campus_sync/authority/login/models/authority.dart';
+import 'package:campus_sync/committee/login/models/committee.dart';
 import 'package:campus_sync/consts/fb_const.dart';
 import 'package:campus_sync/form_fields.dart';
 import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:campus_sync/student/login/models/student.dart';
 
 class AuthorityMandatoryFieldsCubit
     extends Cubit<AuthorityMandatoryFieldState> {
@@ -28,6 +28,8 @@ class AuthorityMandatoryFieldsCubit
           name: RequiredTextInput.dirty(user.name),
           email: Email.dirty(user.email),
           phone: Phone.dirty(formattedPhone),
+          committee: Field.dirty(user.committee),
+          role: Role.dirty(user.role),
           initialFieldsRendered: true,
         ),
       );

@@ -18,10 +18,9 @@ class FBAuthorityConsts {
 }
 
 class FBCommitteeConsts {
-  static const collCommittee = 'Committee';
-  static const fieldEmail = 'email';
+  static const FieldCommittee = 'Committee';
+  static const fieldCommitteeName = 'committeeName';
+  static const fieldCommitteeEmail = 'committeeEmail';
   static const fieldConvener = 'convener';
-  static const fieldImageUrl = 'imageUrl';
-  static const fieldDownloadPath = 'filePath';
-  static const fieldName = 'name';
+  static const fieldMembers = 'members';
 }

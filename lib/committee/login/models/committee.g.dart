@@ -7,17 +7,16 @@ part of 'committee.dart';
 // **************************************************************************
 
 Committee _$CommitteeFromJson(Map<String, dynamic> json) => Committee(
-      committeeName: json['committeeName'] as String,
-      committeeConvener: json['committeeConvener'] as String,
-      email: json['email'] as String,
-      members: (json['members'] as List<dynamic>)
-          .map((e) => Student.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      committeeName: json['committeeName'] as String?,
+      committeeEmail: json['committeeEmail'] as String?,
+      convener: json['convener'] as String?,
+      members:
+          (json['members'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$CommitteeToJson(Committee instance) => <String, dynamic>{
       'committeeName': instance.committeeName,
-      'committeeConvener': instance.committeeConvener,
-      'email': instance.email,
+      'committeeEmail': instance.committeeEmail,
+      'convener': instance.convener,
       'members': instance.members,
     };

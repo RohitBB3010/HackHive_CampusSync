@@ -18,7 +18,7 @@ class AuthorityMandatoryFields extends StatelessWidget {
 
   final _formkey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final clinicPhoneController = TextEditingController();
+  final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final roleCOntroller = TextEditingController();
   String? selectedValue;
@@ -68,8 +68,9 @@ class AuthorityMandatoryFields extends StatelessWidget {
                         .read<AuthorityMandatoryFieldsCubit>()
                         .initialDataRendered) {
                   nameController.text = state.name.value;
-                  clinicPhoneController.text = state.phone.value;
+                  phoneController.text = state.phone.value;
                   emailController.text = state.email.value;
+                  roleCOntroller.text = state.role.value;
                   context
                       .read<AuthorityMandatoryFieldsCubit>()
                       .initialDataRendered = true;
@@ -107,11 +108,11 @@ class AuthorityMandatoryFields extends StatelessWidget {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: CustomTextField(
-                                  labelText: 'Convener',
+                                  labelText: 'Phone No.',
                                   onChanged: context
                                       .read<AuthorityMandatoryFieldsCubit>()
                                       .phoneChanged,
-                                  controller: clinicPhoneController,
+                                  controller: phoneController,
                                   errorText: state.phone.error,
                                   enabled: !state.hasPhoneNo,
                                 ),
