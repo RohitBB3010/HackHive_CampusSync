@@ -77,7 +77,8 @@ class AuthCubit extends Cubit<AuthState> {
       if (condition) {
         emit(EmailSignInState(currState.email.value, false));
       } else {
-        emit(EmailSignUpState(currState.email.value, true, true, false));
+        emit(EmailSignUpState(currState.email.value, true, true, false,
+            currState.userType.value));
       }
     }
   }
@@ -88,7 +89,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit((state as AuthUnauthenticatedState).copyWith(field: field));
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<void> signIn(
+      {required String email,
+      required String password,
+      String? userType}) async {
     try {
       await auth.currentUser?.reload();
       await auth.signInWithEmailAndPassword(
@@ -161,6 +165,7 @@ class AuthCubit extends Cubit<AuthState> {
         !currentState.isPasswordVisible,
         currentState.isConfirmPasswordVisible,
         currentState.isEmailVerified,
+        currentState.userType,
       ),
     );
   }
@@ -174,6 +179,7 @@ class AuthCubit extends Cubit<AuthState> {
         currentState.isPasswordVisible,
         !currentState.isConfirmPasswordVisible,
         currentState.isEmailVerified,
+        currentState.userType,
       ),
     );
   }
@@ -186,26 +192,6 @@ class AuthCubit extends Cubit<AuthState> {
   void returnToLoginPage() {
     emit(AuthUnauthenticatedState());
   }
-
-  // Future<void> createUserIfNotExists(
-  //   UserCredential userCred,
-  //   String fieldName,
-  //   String fieldValue,
-  // ) async {
-  //   // Create user in firestore if it doesn't exist
-
-  //   final userDoc =
-  //       await firestore.collection(usersType!).doc(userCred.user!.uid).get();
-
-  //   if (!userDoc.exists) {
-  //     await enableLogging();
-
-  //     await firestore
-  //         .collection(usersType!)
-  //         .doc(userCred.user!.uid)
-  //         .set({fieldName: fieldValue});
-  //   }
-  // }
 
   Future<void> enableLogging() async {
     try {
@@ -273,7 +259,8 @@ class AuthCubit extends Cubit<AuthState> {
       if (signCondition) {
         emit(EmailSignInState(currState.field.value, true));
       } else {
-        emit(EmailSignUpState(currState.field.value, true, true, false));
+        emit(EmailSignUpState(currState.field.value, true, true, false,
+            currState.userType.value));
       }
     }
   }
