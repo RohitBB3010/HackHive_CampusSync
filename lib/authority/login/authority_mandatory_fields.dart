@@ -3,6 +3,7 @@ import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/authority/login/cubits/authority_mandatory_fields_cubit.dart';
 import 'package:campus_sync/authority/login/cubits/check_authority_cubit.dart';
 import 'package:campus_sync/authority/login/forms/authority_mandatory_field_state.dart';
+import 'package:campus_sync/components/customDropDown.dart';
 import 'package:campus_sync/components/custom_text_field.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/components/text_button.dart';
@@ -19,6 +20,7 @@ class AuthorityMandatoryFields extends StatelessWidget {
   final nameController = TextEditingController();
   final clinicPhoneController = TextEditingController();
   final emailController = TextEditingController();
+  final roleCOntroller = TextEditingController();
   String? selectedValue;
   final List<String> committees = [
     'CSI',
@@ -30,9 +32,6 @@ class AuthorityMandatoryFields extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
     return BlocProvider(
       create: (context) => AuthorityMandatoryFieldsCubit()
         ..fetchMandatoryFieldsData(context.read<AuthCubit>().uid)
@@ -139,12 +138,36 @@ class AuthorityMandatoryFields extends StatelessWidget {
                                   onChanged: context
                                       .read<AuthorityMandatoryFieldsCubit>()
                                       .roleChanged,
-                                  controller: emailController,
-                                  errorText: state.email.error,
-                                  enabled: !state.hasEmail,
+                                  controller: roleCOntroller,
+                                  errorText: null,
+                                  enabled: true,
                                 ),
                               ),
                               heightBetweenFields_2(context),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                child: CustomDropDown(
+                                  onChanged: context
+                                      .read<AuthorityMandatoryFieldsCubit>()
+                                      .roleChanged,
+                                  items: committees.map((committee) {
+                                    return DropdownMenuItem<String>(
+                                        value: committee,
+                                        child: AutoSizeText(committee));
+                                  }).toList(),
+                                  dropdownHeight:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  dropdownWidth:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  hint: const AutoSizeText('Select Committee'),
+                                ),
+                              ),
+                              heightBetweenFields_1(context),
                               CustomElevatedButton(
                                   title: 'Save',
                                   color: secondary_2,

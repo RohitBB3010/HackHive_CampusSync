@@ -22,6 +22,8 @@ abstract class _$AuthorityMandatoryFieldStateCWProxy {
 
   AuthorityMandatoryFieldState hasName(bool hasName);
 
+  AuthorityMandatoryFieldState hasRole(bool hasRole);
+
   AuthorityMandatoryFieldState role(Role role);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `AuthorityMandatoryFieldState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -38,6 +40,7 @@ abstract class _$AuthorityMandatoryFieldStateCWProxy {
     bool? hasEmail,
     bool? hasPhoneNo,
     bool? hasName,
+    bool? hasRole,
     Role? role,
   });
 }
@@ -75,6 +78,9 @@ class _$AuthorityMandatoryFieldStateCWProxyImpl
   AuthorityMandatoryFieldState hasName(bool hasName) => this(hasName: hasName);
 
   @override
+  AuthorityMandatoryFieldState hasRole(bool hasRole) => this(hasRole: hasRole);
+
+  @override
   AuthorityMandatoryFieldState role(Role role) => this(role: role);
 
   @override
@@ -93,6 +99,7 @@ class _$AuthorityMandatoryFieldStateCWProxyImpl
     Object? hasEmail = const $CopyWithPlaceholder(),
     Object? hasPhoneNo = const $CopyWithPlaceholder(),
     Object? hasName = const $CopyWithPlaceholder(),
+    Object? hasRole = const $CopyWithPlaceholder(),
     Object? role = const $CopyWithPlaceholder(),
   }) {
     return AuthorityMandatoryFieldState(
@@ -127,6 +134,10 @@ class _$AuthorityMandatoryFieldStateCWProxyImpl
           ? _value.hasName
           // ignore: cast_nullable_to_non_nullable
           : hasName as bool,
+      hasRole: hasRole == const $CopyWithPlaceholder() || hasRole == null
+          ? _value.hasRole
+          // ignore: cast_nullable_to_non_nullable
+          : hasRole as bool,
       role: role == const $CopyWithPlaceholder() || role == null
           ? _value.role
           // ignore: cast_nullable_to_non_nullable

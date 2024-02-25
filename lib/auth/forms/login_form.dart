@@ -69,6 +69,7 @@ class LoginForm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0)),
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: CustomDropDown(
+                    onChanged: context.read<AuthCubit>().setUserType,
                     items: userType.map((e) {
                       return DropdownMenuItem<String>(
                           value: e, child: AutoSizeText(e));

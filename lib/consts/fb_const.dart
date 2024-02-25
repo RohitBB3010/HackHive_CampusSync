@@ -1,32 +1,27 @@
 class FBStudentConsts {
-  static const collStudents = 'students';
+  static const collStudents = 'Students';
   static const fieldEmail = 'email';
   static const fieldPhone = 'phone';
   static const fieldImageUrl = 'imageUrl';
   static const fieldDownloadPath = 'filePath';
-  static const fieldIsVerified = 'isVerified';
   static const fieldName = 'name';
-  static const fieldDob = 'dob';
 }
 
 class FBAuthorityConsts {
-  static const collAuthority = 'authority';
+  static const collAuthority = 'Authority';
   static const fieldEmail = 'email';
   static const fieldPhone = 'phone';
   static const fieldImageUrl = 'imageUrl';
   static const fieldDownloadPath = 'filePath';
-  static const fieldIsVerified = 'isVerified';
   static const fieldName = 'name';
-  static const fieldDob = 'dob';
+  static const fieldRole = 'role';
 }
 
 class FBCommitteeConsts {
-  static const collCommittee = 'committee';
+  static const collCommittee = 'Committee';
   static const fieldEmail = 'email';
   static const fieldPhone = 'phone';
   static const fieldImageUrl = 'imageUrl';
   static const fieldDownloadPath = 'filePath';
-  static const fieldIsVerified = 'isVerified';
   static const fieldName = 'name';
-  static const fieldDob = 'dob';
 }

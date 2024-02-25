@@ -13,21 +13,21 @@ class CheckAuthorityCubit extends Cubit<CheckAuthorityState> {
         .doc(userID)
         .get();
 
-    final data = snapshot.data()! as Map<String, dynamic>;
+    if (snapshot.data() != null) {
+      final data = snapshot.data()! as Map<String, dynamic>;
 
-    final hasEmail = data.containsKey(FBAuthorityConsts.fieldEmail) &&
-        data[FBAuthorityConsts.fieldEmail] != null;
-    final hasName = data.containsKey(FBAuthorityConsts.fieldName) &&
-        data[FBAuthorityConsts.fieldName] != null;
-    final hasPhoneNo = data.containsKey(FBAuthorityConsts.fieldPhone) &&
-        data[FBAuthorityConsts.fieldPhone] != null;
-    // final hasDob = data.containsKey(FBAuthorityConsts.fieldDob) &&
-    //     data[FBAuthorityConsts.fieldDob] != null;
+      final hasEmail = data.containsKey(FBAuthorityConsts.fieldEmail) &&
+          data[FBAuthorityConsts.fieldEmail] != null;
+      final hasName = data.containsKey(FBAuthorityConsts.fieldName) &&
+          data[FBAuthorityConsts.fieldName] != null;
+      final hasPhoneNo = data.containsKey(FBAuthorityConsts.fieldPhone) &&
+          data[FBAuthorityConsts.fieldPhone] != null;
 
-    if (hasName && hasPhoneNo && hasEmail) {
-      emitAllDataPresentState();
-    } else {
-      emit(AuthorityDataUnavailableState());
+      if (hasName && hasPhoneNo && hasEmail) {
+        emitAllDataPresentState();
+      } else {
+        emit(AuthorityDataUnavailableState());
+      }
     }
   }
 
