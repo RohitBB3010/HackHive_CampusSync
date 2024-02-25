@@ -238,7 +238,8 @@ class AuthCubit extends Cubit<AuthState> {
     });
 
     await auth.signOut();
-    emit(EmailSignInState(email, false));
+    // emit(EmailSignInState(email, false));
+    emit(AuthUnauthenticatedState());
   }
 
   void signOut() {
