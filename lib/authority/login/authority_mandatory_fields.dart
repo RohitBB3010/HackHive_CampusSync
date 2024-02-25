@@ -154,7 +154,7 @@ class AuthorityMandatoryFields extends StatelessWidget {
                                 child: CustomDropDown(
                                   onChanged: context
                                       .read<AuthorityMandatoryFieldsCubit>()
-                                      .roleChanged,
+                                      .committeeChanged,
                                   items: committees.map((committee) {
                                     return DropdownMenuItem<String>(
                                         value: committee,

@@ -4,14 +4,16 @@ part 'authority.g.dart';
 
 @JsonSerializable()
 class Authority {
-  Authority(
-      {required this.name,
-      required this.phone,
-      required this.email,
-      this.filePath,
-      this.imageUrl,
-      this.isVerified = false,
-      required this.role});
+  Authority({
+    required this.name,
+    required this.phone,
+    required this.email,
+    this.filePath,
+    this.imageUrl,
+    this.isVerified = false,
+    required this.role,
+    required this.committee,
+  });
 
   factory Authority.fromJson(Map<String, dynamic> json) =>
       _$AuthorityFromJson(json);
@@ -29,6 +31,8 @@ class Authority {
   final bool isVerified;
   @JsonKey(defaultValue: '')
   final String role;
+  @JsonKey(defaultValue: '')
+  final String committee;
 
   Map<String, dynamic> toJson() => _$AuthorityToJson(this);
 }

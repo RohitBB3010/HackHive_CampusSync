@@ -14,6 +14,7 @@ Authority _$AuthorityFromJson(Map<String, dynamic> json) => Authority(
       imageUrl: json['imageUrl'] as String? ?? '',
       isVerified: json['isVerified'] as bool? ?? false,
       role: json['role'] as String? ?? '',
+      committee: json['committee'] as String? ?? '',
     );
 
 Map<String, dynamic> _$AuthorityToJson(Authority instance) => <String, dynamic>{
@@ -24,4 +25,5 @@ Map<String, dynamic> _$AuthorityToJson(Authority instance) => <String, dynamic>{
       'filePath': instance.filePath,
       'isVerified': instance.isVerified,
       'role': instance.role,
+      'committee': instance.committee,
     };

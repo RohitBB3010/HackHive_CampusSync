@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:campus_sync/authority/login/forms/authority_mandatory_field_state.dart';
+import 'package:campus_sync/authority/login/models/authority.dart';
 import 'package:campus_sync/consts/fb_const.dart';
 import 'package:campus_sync/form_fields.dart';
 import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
@@ -34,15 +35,17 @@ class AuthorityMandatoryFieldsCubit
   }
 
   void setUpdateMandatoryFields(String userID) {
-    final user = Student(
-      studentName: state.name.value,
-      phone: '+91${state.phone.value}',
-      email: state.email.value,
-    );
+    final authority = Authority(
+        name: state.name.value,
+        phone: state.phone.value,
+        email: state.email.value,
+        role: state.role.value,
+        committee: state.committee.value);
+
     FirebaseFirestore.instance
         .collection(FBAuthorityConsts.collAuthority)
         .doc(userID)
-        .set(user.toJson(), SetOptions(merge: true))
+        .set(authority.toJson(), SetOptions(merge: true))
         .then((value) {
       emit(AuthorityDataFilledActionState());
     });
@@ -82,6 +85,11 @@ class AuthorityMandatoryFieldsCubit
         role: role,
       ),
     );
+  }
+
+  void committeeChanged(String value) {
+    final committee = Field.dirty(value);
+    emit(state.copyWith(committee: committee));
   }
 
   Future<void> checkDetailsFilled(String userID) async {

@@ -16,6 +16,8 @@ abstract class _$AuthorityMandatoryFieldStateCWProxy {
   AuthorityMandatoryFieldState initialFieldsRendered(
       bool initialFieldsRendered);
 
+  AuthorityMandatoryFieldState committee(Field committee);
+
   AuthorityMandatoryFieldState hasEmail(bool hasEmail);
 
   AuthorityMandatoryFieldState hasPhoneNo(bool hasPhoneNo);
@@ -37,6 +39,7 @@ abstract class _$AuthorityMandatoryFieldStateCWProxy {
     Email? email,
     Phone? phone,
     bool? initialFieldsRendered,
+    Field? committee,
     bool? hasEmail,
     bool? hasPhoneNo,
     bool? hasName,
@@ -65,6 +68,10 @@ class _$AuthorityMandatoryFieldStateCWProxyImpl
   AuthorityMandatoryFieldState initialFieldsRendered(
           bool initialFieldsRendered) =>
       this(initialFieldsRendered: initialFieldsRendered);
+
+  @override
+  AuthorityMandatoryFieldState committee(Field committee) =>
+      this(committee: committee);
 
   @override
   AuthorityMandatoryFieldState hasEmail(bool hasEmail) =>
@@ -96,6 +103,7 @@ class _$AuthorityMandatoryFieldStateCWProxyImpl
     Object? email = const $CopyWithPlaceholder(),
     Object? phone = const $CopyWithPlaceholder(),
     Object? initialFieldsRendered = const $CopyWithPlaceholder(),
+    Object? committee = const $CopyWithPlaceholder(),
     Object? hasEmail = const $CopyWithPlaceholder(),
     Object? hasPhoneNo = const $CopyWithPlaceholder(),
     Object? hasName = const $CopyWithPlaceholder(),
@@ -121,6 +129,10 @@ class _$AuthorityMandatoryFieldStateCWProxyImpl
               ? _value.initialFieldsRendered
               // ignore: cast_nullable_to_non_nullable
               : initialFieldsRendered as bool,
+      committee: committee == const $CopyWithPlaceholder() || committee == null
+          ? _value.committee
+          // ignore: cast_nullable_to_non_nullable
+          : committee as Field,
       hasEmail: hasEmail == const $CopyWithPlaceholder() || hasEmail == null
           ? _value.hasEmail
           // ignore: cast_nullable_to_non_nullable

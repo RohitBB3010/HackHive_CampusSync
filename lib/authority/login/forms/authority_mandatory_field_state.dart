@@ -12,6 +12,7 @@ class AuthorityMandatoryFieldState extends CheckAuthorityState with FormzMixin {
     this.email = const Email.pure(),
     this.phone = const Phone.pure(),
     this.initialFieldsRendered = false,
+    this.committee = const Field.pure(),
     this.hasEmail = false,
     this.hasPhoneNo = false,
     this.hasName = false,
@@ -24,13 +25,14 @@ class AuthorityMandatoryFieldState extends CheckAuthorityState with FormzMixin {
   final Email email;
   final Role role;
   final bool initialFieldsRendered;
+  final Field committee;
   bool hasEmail;
   bool hasPhoneNo;
   bool hasName;
   bool hasRole;
 
   @override
-  List<FormzInput> get inputs => [name, phone, email, role];
+  List<FormzInput> get inputs => [name, phone, email, role, committee];
 }
 
 class AuthorityDataFilledActionState extends AuthorityMandatoryFieldState {}
