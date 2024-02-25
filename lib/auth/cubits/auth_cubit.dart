@@ -26,11 +26,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   void checkAuth() async {
     if (auth.currentUser != null) {
-      // debugPrint(
-      //     'usertype - ${(state as AuthUnauthenticatedState).userType.value}');
-      emit(AuthLoadingState());
+      //emit(AuthLoadingState());
 
-      debugPrint('type - ${type}');
+      debugPrint(
+          'type - ${(state as AuthUnauthenticatedState).userType.value}');
       // fetchData();
       if (type == 'Student') {
         emit(StudentSignInState());
@@ -39,7 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
       } else if (type == 'Committee') {
         emit(CommitteeSignInState());
       }
-      emit(AuthAuthenticatedState());
+      //emit(AuthAuthenticatedState());
     } else {
       emit(AuthUnauthenticatedState());
     }
@@ -75,7 +74,8 @@ class AuthCubit extends Cubit<AuthState> {
       final condition = await checkUserExists(
           currState.email.value, currState.userType.value);
       if (condition) {
-        emit(EmailSignInState(currState.email.value, false));
+        emit(EmailSignInState(
+            currState.email.value, false, currState.userType.value));
       } else {
         emit(EmailSignUpState(currState.email.value, true, true, false));
       }
@@ -88,7 +88,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit((state as AuthUnauthenticatedState).copyWith(field: field));
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<void> signIn(
+      {required String email,
+      required String password,
+      required String userType}) async {
     try {
       await auth.currentUser?.reload();
       await auth.signInWithEmailAndPassword(
@@ -96,16 +99,21 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
       );
 
-      type = 'Student';
-      emit(AuthAuthenticatedState());
+      // type = 'Student';
+      // emit(AuthAuthenticatedState());
+
+      if (userType == 'Student') {
+        emit(StudentSignInState());
+      } else if (userType == 'Authority') {
+        emit(AuthoritySignInState());
+      } else if (userType == 'Committee') {
+        emit(CommitteeSignInState());
+      }
     } on FirebaseAuthException catch (error) {
       if (error.code.contains('user-not-found')) {
         emit(
           EmailSignInErrorState(
-            email,
-            true,
-            'No user found for that email.',
-          ),
+              email, true, 'No user found for that email.', userType),
         );
         return;
       }
@@ -113,31 +121,22 @@ class AuthCubit extends Cubit<AuthState> {
       if (error.code.contains('wrong-password')) {
         emit(
           EmailSignInErrorState(
-            email,
-            true,
-            'Wrong password provided for that user.',
-          ),
+              email, true, 'Wrong password provided for that user.', userType),
         );
         return;
       }
 
       if (error.code.contains('too-many-requests')) {
         emit(
-          EmailSignInErrorState(
-            email,
-            true,
-            'Too many failed attempts. Try again later.',
-          ),
+          EmailSignInErrorState(email, true,
+              'Too many failed attempts. Try again later.', userType),
         );
       }
     } catch (error) {
       debugPrint('Error signing in: $error');
       emit(
         EmailSignInErrorState(
-          email,
-          true,
-          'Error signing in. Please contact support.',
-        ),
+            email, true, 'Error signing in. Please contact support.', userType),
       );
     }
   }
@@ -147,8 +146,8 @@ class AuthCubit extends Cubit<AuthState> {
     if (state is EmailSignInState) {
       final currentState = state as EmailSignInState;
       debugPrint('Current state is : $currentState');
-      emit(EmailSignInState(
-          currentState.email, !currentState.isPasswordVisible));
+      emit(EmailSignInState(currentState.email, !currentState.isPasswordVisible,
+          currentState.userType));
     }
   }
 
@@ -178,9 +177,9 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> passwordReset(String email) async {
+  Future<void> passwordReset(String email, String userType) async {
     await auth.sendPasswordResetEmail(email: email);
-    emit(EmailPasswordResetLinkSent(email, false));
+    emit(EmailPasswordResetLinkSent(email, false, userType));
   }
 
   void returnToLoginPage() {
@@ -238,7 +237,7 @@ class AuthCubit extends Cubit<AuthState> {
     });
 
     await auth.signOut();
-    emit(EmailSignInState(email, false));
+    emit(EmailSignInState(email, false, type!));
   }
 
   void signOut() {
@@ -270,7 +269,8 @@ class AuthCubit extends Cubit<AuthState> {
       final signCondition = await checkUserExists(
           currState.field.value, currState.userType.value);
       if (signCondition) {
-        emit(EmailSignInState(currState.field.value, true));
+        emit(EmailSignInState(
+            currState.field.value, true, currState.userType.value));
       } else {
         emit(EmailSignUpState(currState.field.value, true, true, false));
       }

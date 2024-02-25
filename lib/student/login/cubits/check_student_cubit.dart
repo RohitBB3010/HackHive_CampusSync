@@ -7,7 +7,7 @@ class CheckStudentCubit extends Cubit<CheckStudentState> {
   CheckStudentCubit() : super(CheckStudentState());
 
   Future<void> checkUserDataStatus(String userID) async {
-    emit(StudentCheckLoadingState());
+    // emit(StudentCheckLoadingState());
     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection(FBStudentConsts.collStudents)
         .doc(userID)

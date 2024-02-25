@@ -68,8 +68,9 @@ class SignInForm extends StatelessWidget {
                             title: 'Reset Password',
                             onPressed: () {
                               context.read<AuthCubit>().passwordReset(
-                                    (authCubit.state as EmailSignInState).email,
-                                  );
+                                  (authCubit.state as EmailSignInState).email,
+                                  (authCubit.state as EmailSignInState)
+                                      .userType);
                             }),
                         widthBetweenFields_1(context),
                       ],
@@ -122,8 +123,8 @@ class SignInForm extends StatelessWidget {
                           title: 'Reset Password',
                           onPressed: () {
                             context.read<AuthCubit>().passwordReset(
-                                  (authCubit.state as EmailSignInState).email,
-                                );
+                                (authCubit.state as EmailSignInState).email,
+                                (authCubit.state as EmailSignInState).userType);
                           },
                         ),
                         widthBetweenFields_1(context),
@@ -153,9 +154,9 @@ Widget signInButton(AuthCubit authCubit, SignInState state) {
       //color: Colors.deepPurple,
       onPressed: () {
         authCubit.signIn(
-          email: (authCubit.state as EmailSignInState).email,
-          password: state.password.value,
-        );
+            email: (authCubit.state as EmailSignInState).email,
+            password: state.password.value,
+            userType: (authCubit.state as EmailSignInState).userType);
       });
 }
 

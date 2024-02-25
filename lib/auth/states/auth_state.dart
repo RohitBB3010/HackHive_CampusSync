@@ -12,18 +12,21 @@ abstract class EmailState extends AuthState {}
 abstract class SignInStateAuth extends AuthState {}
 
 class EmailPasswordResetLinkSent extends EmailSignInState {
-  EmailPasswordResetLinkSent(super.email, super.isPasswordVisible);
+  EmailPasswordResetLinkSent(
+      super.email, super.isPasswordVisible, super.userType);
 }
 
 //Class for when user has already signed in
 class EmailSignInState extends EmailState {
-  EmailSignInState(this.email, this.isPasswordVisible);
+  EmailSignInState(this.email, this.isPasswordVisible, this.userType);
   final String email;
   final bool isPasswordVisible;
+  final String userType;
 }
 
 class EmailSignInErrorState extends EmailSignInState {
-  EmailSignInErrorState(super.email, super.isPasswordVisible, this.message);
+  EmailSignInErrorState(
+      super.email, super.isPasswordVisible, this.message, super.userType);
 
   final String message;
 }
