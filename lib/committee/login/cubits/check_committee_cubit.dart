@@ -20,10 +20,10 @@ class CheckCommitteeCubit extends Cubit<CheckCommitteeState> {
           data[FBCommitteeConsts.fieldEmail] != null;
       final hasName = data.containsKey(FBCommitteeConsts.fieldName) &&
           data[FBCommitteeConsts.fieldName] != null;
-      final hasPhoneNo = data.containsKey(FBCommitteeConsts.fieldPhone) &&
-          data[FBCommitteeConsts.fieldPhone] != null;
+      final hasConvener = data.containsKey(FBCommitteeConsts.fieldConvener) &&
+          data[FBCommitteeConsts.fieldConvener] != null;
 
-      if (hasName && hasPhoneNo && hasEmail) {
+      if (hasName && hasConvener && hasEmail) {
         emitAllDataPresentState();
       } else {
         emit(CommitteeDataUnavailableState());

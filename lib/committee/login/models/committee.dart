@@ -9,8 +9,6 @@ class Committee {
     required this.committeeName,
     required this.committeeConvener,
     required this.committeeEmail,
-    required this.filePath,
-    required this.imageUrl,
     required this.members,
   });
 
@@ -20,8 +18,6 @@ class Committee {
   final String committeeName;
   final String committeeConvener;
   final String committeeEmail;
-  final String filePath;
-  final String imageUrl;
   final List<Student> members;
 
   Map<String, dynamic> toJson() => _$CommitteeToJson(this);

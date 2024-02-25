@@ -107,8 +107,7 @@ class AuthorityMandatoryFields extends StatelessWidget {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: CustomTextField(
-                                  labelText: 'Phone No',
-                                  prefixText: '+91',
+                                  labelText: 'Convener',
                                   onChanged: context
                                       .read<AuthorityMandatoryFieldsCubit>()
                                       .phoneChanged,

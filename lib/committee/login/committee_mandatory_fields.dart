@@ -15,14 +15,11 @@ class CommitteeMandatoryFields extends StatelessWidget {
 
   final _formkey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final clinicPhoneController = TextEditingController();
+  final committeeController = TextEditingController();
   final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
     return BlocProvider(
       create: (context) => CommitteeMandatoryFieldsCubit()
         ..fetchMandatoryFieldsData(context.read<AuthCubit>().uid)
@@ -59,7 +56,7 @@ class CommitteeMandatoryFields extends StatelessWidget {
                         .read<CommitteeMandatoryFieldsCubit>()
                         .initialDataRendered) {
                   nameController.text = state.name.value;
-                  clinicPhoneController.text = state.phone.value;
+
                   emailController.text = state.email.value;
                   context
                       .read<CommitteeMandatoryFieldsCubit>()
@@ -102,19 +99,6 @@ class CommitteeMandatoryFields extends StatelessWidget {
                                     MediaQuery.of(context).size.height * 0.05,
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                child: CustomTextField(
-                                  labelText: 'Phone No',
-                                  prefixText: '+91',
-                                  onChanged: context
-                                      .read<CommitteeMandatoryFieldsCubit>()
-                                      .phoneChanged,
-                                  controller: clinicPhoneController,
-                                  errorText: state.phone.error,
-                                  enabled: !state.hasPhoneNo,
-                                ),
-                              ),
-                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.05,
                               ),
@@ -128,6 +112,24 @@ class CommitteeMandatoryFields extends StatelessWidget {
                                   controller: emailController,
                                   errorText: state.email.error,
                                   enabled: !state.hasEmail,
+                                ),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                child: CustomTextField(
+                                  labelText: 'Convener',
+                                  onChanged: context
+                                      .read<CommitteeMandatoryFieldsCubit>()
+                                      .conveverChanged,
+                                  controller: committeeController,
+                                  errorText: committeeController.text.isEmpty
+                                      ? 'Field cannot be empty'
+                                      : null,
+                                  enabled: !state.hasConvener,
                                 ),
                               ),
                               SizedBox(

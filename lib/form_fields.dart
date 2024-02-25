@@ -20,6 +20,16 @@ class TextListInput extends FormzInput<List<String>, String> {
   }
 }
 
+class randomField extends FormzInput<String, String> {
+  const randomField.pure() : super.pure('');
+  const randomField.dirt([super.value = '']) : super.dirty();
+
+  @override
+  String? validator(String value) {
+    return null;
+  }
+}
+
 //creating Field class to get data from single text field
 class Field extends FormzInput<String, String> {
   const Field.pure() : super.pure('');

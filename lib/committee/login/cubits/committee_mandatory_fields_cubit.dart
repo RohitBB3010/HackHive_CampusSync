@@ -1,11 +1,12 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:bloc/bloc.dart';
 import 'package:campus_sync/committee/login/forms/committee_mandatory_field_state.dart';
+import 'package:campus_sync/committee/login/models/committee.dart';
 import 'package:campus_sync/consts/fb_const.dart';
 import 'package:campus_sync/form_fields.dart';
-import 'package:campus_sync/student/login/forms/student_mandatory_field_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-import 'package:campus_sync/student/login/models/student.dart';
 
 class CommitteeMandatoryFieldsCubit
     extends Cubit<CommitteeMandatoryFieldState> {
@@ -19,15 +20,13 @@ class CommitteeMandatoryFieldsCubit
         .doc(userID)
         .get()
         .then((value) {
-      final user = Student.fromJson(value.data()!);
-
-      final formattedPhone = user.phone == '' ? '' : user.phone.substring(3);
+      final committee = Committee.fromJson(value.data()!);
 
       emit(
         state.copyWith(
-          name: RequiredTextInput.dirty(user.studentName),
-          email: Email.dirty(user.email),
-          phone: Phone.dirty(formattedPhone),
+          name: RequiredTextInput.dirty(committee.committeeName),
+          email: Email.dirty(committee.committeeEmail),
+          convener: RequiredTextInput.dirty(committee.committeeConvener),
           initialFieldsRendered: true,
         ),
       );
@@ -35,15 +34,16 @@ class CommitteeMandatoryFieldsCubit
   }
 
   void setUpdateMandatoryFields(String userID) {
-    final user = Student(
-      studentName: state.name.value,
-      phone: '+91${state.phone.value}',
-      email: state.email.value,
-    );
+    final committee = Committee(
+        committeeName: state.name.value,
+        committeeConvener: state.convener.value,
+        committeeEmail: state.email.value,
+        members: []);
+
     FirebaseFirestore.instance
         .collection(FBCommitteeConsts.collCommittee)
         .doc(userID)
-        .set(user.toJson(), SetOptions(merge: true))
+        .set(committee.toJson(), SetOptions(merge: true))
         .then((value) {
       emit(CommitteeDataFilledActionState());
     });
@@ -58,13 +58,11 @@ class CommitteeMandatoryFieldsCubit
     );
   }
 
-  void phoneChanged(String value) {
-    final clinicPhone = Phone.dirty(value);
-    emit(
-      state.copyWith(
-        phone: clinicPhone,
-      ),
-    );
+  void conveverChanged(String value) {
+    final convener = RequiredTextInput.dirty(value);
+    emit(state.copyWith(
+      convener: convener,
+    ));
   }
 
   void emailChanged(String value) {
@@ -87,8 +85,8 @@ class CommitteeMandatoryFieldsCubit
     final data = snapshot.data() as Map<String, dynamic>?;
     final hasEmail = data!.containsKey(FBCommitteeConsts.fieldEmail) &&
         data[FBCommitteeConsts.fieldEmail] != null;
-    final hasPhoneNo = data.containsKey(FBCommitteeConsts.fieldPhone) &&
-        data[FBCommitteeConsts.fieldPhone] != null;
+    final hasConvener = data.containsKey(FBCommitteeConsts.fieldConvener) &&
+        data[FBCommitteeConsts.fieldConvener] != null;
 
     final hasName = data.containsKey(FBCommitteeConsts.fieldName) &&
         data[FBCommitteeConsts.fieldName] != null;
@@ -96,7 +94,7 @@ class CommitteeMandatoryFieldsCubit
     emit(
       state.copyWith(
         hasEmail: hasEmail,
-        hasPhoneNo: hasPhoneNo,
+        hasConvener: hasConvener,
         hasName: hasName,
       ),
     );
