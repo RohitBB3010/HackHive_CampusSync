@@ -15,6 +15,7 @@ class AuthorityMandatoryFieldState extends CheckAuthorityState with FormzMixin {
     this.hasEmail = false,
     this.hasPhoneNo = false,
     this.hasName = false,
+    this.hasRole = false,
     this.role = const Role.pure(),
   });
 
@@ -26,6 +27,7 @@ class AuthorityMandatoryFieldState extends CheckAuthorityState with FormzMixin {
   bool hasEmail;
   bool hasPhoneNo;
   bool hasName;
+  bool hasRole;
 
   @override
   List<FormzInput> get inputs => [name, phone, email, role];

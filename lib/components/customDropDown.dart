@@ -10,12 +10,14 @@ class CustomDropDown extends StatefulWidget {
     required this.dropdownHeight,
     required this.dropdownWidth,
     required this.hint,
+    required this.onChanged,
   });
 
   final List<DropdownMenuItem<String>> items;
   final double dropdownWidth;
   final double dropdownHeight;
   final Widget hint;
+  final void Function(String) onChanged;
 
   @override
   State<CustomDropDown> createState() => _CustomDropDownState();
@@ -33,7 +35,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         if (value != null && widget.items.any((item) => item.value == value)) {
           setState(() {
             selectedValue = value;
-            context.read<AuthCubit>().setUserType(selectedValue);
+            widget.onChanged(selectedValue != null ? selectedValue! : '');
           });
         }
       },

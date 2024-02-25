@@ -97,15 +97,17 @@ class AuthorityMandatoryFieldsCubit
         data[FBAuthorityConsts.fieldEmail] != null;
     final hasPhoneNo = data.containsKey(FBAuthorityConsts.fieldPhone) &&
         data[FBAuthorityConsts.fieldPhone] != null;
-
     final hasName = data.containsKey(FBAuthorityConsts.fieldName) &&
         data[FBAuthorityConsts.fieldName] != null;
+    final hasRole = data.containsKey(FBAuthorityConsts.fieldRole) &&
+        data[FBAuthorityConsts.fieldPhone] != null;
 
     emit(
       state.copyWith(
         hasEmail: hasEmail,
         hasPhoneNo: hasPhoneNo,
         hasName: hasName,
+        hasRole: hasRole,
       ),
     );
   }

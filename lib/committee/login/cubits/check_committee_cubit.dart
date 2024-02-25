@@ -8,26 +8,26 @@ class CheckCommitteeCubit extends Cubit<CheckCommitteeState> {
 
   Future<void> checkUserDataStatus(String userID) async {
     emit(CommitteeCheckLoadingState());
-    final DocumentSnapshot snapshot = await FirebaseFirestore.instance
+    final snapshot = await FirebaseFirestore.instance
         .collection(FBCommitteeConsts.collCommittee)
         .doc(userID)
         .get();
 
-    final data = snapshot.data()! as Map<String, dynamic>;
+    if (snapshot.data() != null) {
+      final data = snapshot.data();
 
-    final hasEmail = data.containsKey(FBCommitteeConsts.fieldEmail) &&
-        data[FBCommitteeConsts.fieldEmail] != null;
-    final hasName = data.containsKey(FBCommitteeConsts.fieldName) &&
-        data[FBCommitteeConsts.fieldName] != null;
-    final hasPhoneNo = data.containsKey(FBCommitteeConsts.fieldPhone) &&
-        data[FBCommitteeConsts.fieldPhone] != null;
-    // final hasDob = data.containsKey(FBCommitteeConsts.fieldDob) &&
-    //     data[FBCommitteeConsts.fieldDob] != null;
+      final hasEmail = data!.containsKey(FBCommitteeConsts.fieldEmail) &&
+          data[FBCommitteeConsts.fieldEmail] != null;
+      final hasName = data.containsKey(FBCommitteeConsts.fieldName) &&
+          data[FBCommitteeConsts.fieldName] != null;
+      final hasPhoneNo = data.containsKey(FBCommitteeConsts.fieldPhone) &&
+          data[FBCommitteeConsts.fieldPhone] != null;
 
-    if (hasName && hasPhoneNo && hasEmail) {
-      emitAllDataPresentState();
-    } else {
-      emit(CommitteeDataUnavailableState());
+      if (hasName && hasPhoneNo && hasEmail) {
+        emitAllDataPresentState();
+      } else {
+        emit(CommitteeDataUnavailableState());
+      }
     }
   }
 
