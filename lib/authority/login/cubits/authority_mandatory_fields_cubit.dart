@@ -19,13 +19,13 @@ class AuthorityMandatoryFieldsCubit
         .doc(userID)
         .get()
         .then((value) {
-      final user = Student.fromJson(value.data()!);
+      final user = Authority.fromJson(value.data()!);
 
       final formattedPhone = user.phone == '' ? '' : user.phone.substring(3);
 
       emit(
         state.copyWith(
-          name: RequiredTextInput.dirty(user.studentName),
+          name: RequiredTextInput.dirty(user.name),
           email: Email.dirty(user.email),
           phone: Phone.dirty(formattedPhone),
           initialFieldsRendered: true,

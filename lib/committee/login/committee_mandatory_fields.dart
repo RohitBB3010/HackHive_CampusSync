@@ -56,7 +56,7 @@ class CommitteeMandatoryFields extends StatelessWidget {
                         .read<CommitteeMandatoryFieldsCubit>()
                         .initialDataRendered) {
                   nameController.text = state.name.value;
-
+                  committeeController.text = state.convener.value;
                   emailController.text = state.email.value;
                   context
                       .read<CommitteeMandatoryFieldsCubit>()

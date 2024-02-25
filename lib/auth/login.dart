@@ -5,7 +5,7 @@ import 'package:campus_sync/auth/forms/safe_view.dart';
 import 'package:campus_sync/auth/forms/sign_in_view.dart';
 import 'package:campus_sync/auth/forms/sign_up_view.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
-import 'package:campus_sync/authority/login/authority_screen.dart';
+import 'package:campus_sync/authority/home_pages.dart/pages/authority_screen.dart';
 import 'package:campus_sync/committee/login/committee_screen.dart';
 import 'package:campus_sync/student/login/student_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';

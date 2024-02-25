@@ -8,7 +8,7 @@ class Committee {
   Committee({
     required this.committeeName,
     required this.committeeConvener,
-    required this.committeeEmail,
+    required this.email,
     required this.members,
   });
 
@@ -17,7 +17,7 @@ class Committee {
 
   final String committeeName;
   final String committeeConvener;
-  final String committeeEmail;
+  final String email;
   final List<Student> members;
 
   Map<String, dynamic> toJson() => _$CommitteeToJson(this);

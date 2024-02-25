@@ -95,25 +95,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      // if (usersType == 'Student') {
-      //   emit(StudentSignInState());
-      // } else if (usersType == 'Authority') {
-      //   emit(AuthoritySignInState());
-      // } else {
-      //   emit(CommitteeSignInState());
-      // }
-      //await fetchData();
 
-      // final userTypeValue =
-      //     userTypeFormz.dirty(usersType != null ? usersType! : '');
-
-      // usersType = userTypeValue.value;
-      // emit(AuthAuthenticatedState().copyWith(userType: userTypeValue));
-      // DocumentSnapshot userDoc = await FirebaseFirestore.instance
-      //     .collection(usersType!)
-      //     .doc(auth.currentUser!.uid)
-      //     .get();
-      // Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
       type = 'Student';
       emit(AuthAuthenticatedState());
     } on FirebaseAuthException catch (error) {

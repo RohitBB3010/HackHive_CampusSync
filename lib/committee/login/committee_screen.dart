@@ -3,6 +3,7 @@ import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
 import 'package:campus_sync/committee/login/committee_mandatory_fields.dart';
 import 'package:campus_sync/committee/login/cubits/check_committee_cubit.dart';
+import 'package:campus_sync/components/custom_appBar.dart';
 import 'package:campus_sync/components/elevated_button.dart';
 import 'package:campus_sync/committee/login/states/check_state.dart';
 
@@ -58,15 +59,11 @@ class DisplayScreen extends StatelessWidget {
             return BlocProvider(
               create: (context) => AuthCubit(),
               child: Scaffold(
-                  // body: const TopicsScreen(),
-                  body: Column(
-                children: [
-                  const Text(' Authority home'),
-                  CustomElevatedButton(
-                      title: 'Signout',
-                      onPressed: context.read<AuthCubit>().returnToLoginPage)
-                ],
-              )),
+                appBar: CustomAppBar(
+                  context: context,
+                  titleText: 'Committee',
+                ),
+              ),
             );
           }
         },

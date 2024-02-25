@@ -1,7 +1,9 @@
 import 'package:campus_sync/auth/cubits/auth_cubit.dart';
 import 'package:campus_sync/auth/login.dart';
 import 'package:campus_sync/auth/states/auth_state.dart';
-import 'package:campus_sync/authority/login/authority_screen.dart';
+import 'package:campus_sync/authority/authority_bottom_nav.dart';
+import 'package:campus_sync/authority/home_pages.dart/pages/authority_profile.dart';
+import 'package:campus_sync/authority/home_pages.dart/pages/authority_screen.dart';
 import 'package:campus_sync/committee/login/committee_screen.dart';
 import 'package:campus_sync/components/text_button.dart';
 import 'package:campus_sync/consts/colors.dart';
@@ -10,11 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
+
+  var authorityPageRoutes = {
+    '/profile': (context) => const AuthorityProfile(),
+    //'proposalList' : (context) => const
+  };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: authorityPageRoutes,
       theme: ThemeData(
         scaffoldBackgroundColor: primary_2,
         appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 3, 128, 232)),
@@ -35,27 +43,17 @@ class App extends StatelessWidget {
           builder: (context, state) {
             final authCubit = context.read<AuthCubit>();
             if (state is AuthAuthenticatedState) {
-              // return AuthorityScreen();
-
-              // return Column(
-              //   children: [
-              //     Text('home'),
-              //     CustomTextButton(
-              //         title: 'signout',
-              //         onPressed: context.read<AuthCubit>().returnToLoginPage)
-              //   ],
-              // );
               if (authCubit.usersType == 'Student') {
                 debugPrint('code from app.dart ran');
                 return StudentScreen();
               } else if (authCubit.usersType == 'Authority') {
-                return AuthorityScreen();
+                return const AuthorityScreen();
               } else if (authCubit.usersType == 'Committee') {
                 return CommitteeScreen();
               } else
                 return Column(
                   children: [
-                    Text('home'),
+                    const Text('home'),
                     CustomTextButton(
                         title: 'signout',
                         onPressed: context.read<AuthCubit>().returnToLoginPage)

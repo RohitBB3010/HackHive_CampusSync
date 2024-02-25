@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
 import 'package:campus_sync/committee/login/forms/committee_mandatory_field_state.dart';
 import 'package:campus_sync/committee/login/models/committee.dart';
@@ -25,7 +22,7 @@ class CommitteeMandatoryFieldsCubit
       emit(
         state.copyWith(
           name: RequiredTextInput.dirty(committee.committeeName),
-          email: Email.dirty(committee.committeeEmail),
+          email: Email.dirty(committee.email),
           convener: RequiredTextInput.dirty(committee.committeeConvener),
           initialFieldsRendered: true,
         ),
@@ -37,7 +34,7 @@ class CommitteeMandatoryFieldsCubit
     final committee = Committee(
         committeeName: state.name.value,
         committeeConvener: state.convener.value,
-        committeeEmail: state.email.value,
+        email: state.email.value,
         members: []);
 
     FirebaseFirestore.instance
