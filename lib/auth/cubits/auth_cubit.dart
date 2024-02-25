@@ -29,7 +29,8 @@ class AuthCubit extends Cubit<AuthState> {
       // debugPrint(
       //     'usertype - ${(state as AuthUnauthenticatedState).userType.value}');
       emit(AuthLoadingState());
-
+      type = auth.currentUser!.displayName;
+      this.usersType = type;
       debugPrint('type - ${type}');
       // fetchData();
       if (type == 'Student') {
@@ -217,6 +218,7 @@ class AuthCubit extends Cubit<AuthState> {
             .collection(usersType!)
             .doc(userCredential.user!.uid)
             .get();
+        userCredential.user!.updateDisplayName(usersType);
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
         type = userData['userRole'];
         debugPrint('type = from signup = $type');
