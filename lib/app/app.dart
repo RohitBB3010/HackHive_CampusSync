@@ -52,15 +52,8 @@ class App extends StatelessWidget {
               } else if (authCubit.usersType == 'Committee') {
                 return CommitteeScreen();
                 //return AutoSizeText('Rohit');
-              } else
-                return Column(
-                  children: [
-                    const Text('home'),
-                    CustomTextButton(
-                        title: 'signout',
-                        onPressed: context.read<AuthCubit>().returnToLoginPage)
-                  ],
-                );
+              }
+              return Container();
             } else if (state is StudentSignInState) {
               debugPrint('code from app.dart ran');
               return StudentScreen();

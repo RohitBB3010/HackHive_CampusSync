@@ -10,7 +10,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthUnauthenticatedState());
 
   FirebaseAuth auth = FirebaseAuth.instance;
-  final _db = FirebaseFirestore.instance;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String userName = '';
@@ -26,12 +26,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   void checkAuth() async {
     if (auth.currentUser != null) {
-      // debugPrint(
-      //     'usertype - ${(state as AuthUnauthenticatedState).userType.value}');
       emit(AuthLoadingState());
       type = auth.currentUser!.displayName;
       this.usersType = type;
-      debugPrint('type - ${type}');
+      debugPrint('type - $type');
       // fetchData();
       if (type == 'Student') {
         emit(StudentSignInState());
@@ -46,12 +44,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // Future<void> getUserRole() async {
-  //   final usersRef = FirebaseFirestore.instance.collection(usersType);
-  //   final snapshot =
-  //       await usersRef.where('email', isEqualTo: email).limit(1).get();
-  // }
-
   void setUserType(String? userType) {
     final userTypeValue = userTypeFormz.dirty(userType != null ? userType : '');
     debugPrint('IN set function : $userTypeValue');
@@ -60,8 +52,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<bool> checkUserExists(String email, String userType) async {
-    // debugPrint(
-    //     'from checkUserExists - ${(state as AuthUnauthenticatedState).userType.value}');
     debugPrint('usertype - $userType');
     final usersRef = FirebaseFirestore.instance.collection(userType);
     final snapshot =
@@ -78,8 +68,12 @@ class AuthCubit extends Cubit<AuthState> {
       if (condition) {
         emit(EmailSignInState(currState.email.value, false));
       } else {
-        emit(EmailSignUpState(currState.email.value, true, true, false,
-            currState.userType.value));
+        emit(EmailSignUpState(
+          currState.email.value,
+          true,
+          true,
+          false,
+        ));
       }
     }
   }
@@ -101,7 +95,6 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
       );
 
-      type = 'Student';
       emit(AuthAuthenticatedState());
     } on FirebaseAuthException catch (error) {
       if (error.code.contains('user-not-found')) {
@@ -166,7 +159,6 @@ class AuthCubit extends Cubit<AuthState> {
         !currentState.isPasswordVisible,
         currentState.isConfirmPasswordVisible,
         currentState.isEmailVerified,
-        currentState.userType,
       ),
     );
   }
@@ -180,7 +172,6 @@ class AuthCubit extends Cubit<AuthState> {
         currentState.isPasswordVisible,
         !currentState.isConfirmPasswordVisible,
         currentState.isEmailVerified,
-        currentState.userType,
       ),
     );
   }
@@ -214,13 +205,9 @@ class AuthCubit extends Cubit<AuthState> {
             .set({'email': email, 'userRole': usersType}).catchError((onError) {
           debugPrint('Error adding doc $onError');
         });
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection(usersType!)
-            .doc(userCredential.user!.uid)
-            .get();
+
         userCredential.user!.updateDisplayName(usersType);
-        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-        type = userData['userRole'];
+
         debugPrint('type = from signup = $type');
       });
     });
@@ -254,25 +241,18 @@ class AuthCubit extends Cubit<AuthState> {
     if (state is AuthUnauthenticatedState) {
       final currState = state as AuthUnauthenticatedState;
 
-      final inputStatus = checkStringType(currState.field.value);
-
       final signCondition = await checkUserExists(
           currState.field.value, currState.userType.value);
       if (signCondition) {
         emit(EmailSignInState(currState.field.value, true));
       } else {
-        emit(EmailSignUpState(currState.field.value, true, true, false,
-            currState.userType.value));
+        emit(EmailSignUpState(
+          currState.field.value,
+          true,
+          true,
+          false,
+        ));
       }
     }
   }
-
-  // bool isNotEmpty(String value) {
-  //   if (value.isNotEmpty) {
-  //     emit(state.copyWith(isButtonEnabled: true));
-  //   } else {
-  //     emit(state.copyWith(isButtonEnabled: false));
-  //   }
-  //   return state.isButtonEnabled;
-  // }
 }

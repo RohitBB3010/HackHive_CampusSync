@@ -35,13 +35,11 @@ class EmailSignUpState extends EmailState {
     this.isPasswordVisible,
     this.isConfirmPasswordVisible,
     this.isEmailVerified,
-    this.userType,
   );
   final String email;
   final bool isPasswordVisible;
   final bool isConfirmPasswordVisible;
   final bool isEmailVerified;
-  final String userType;
 }
 
 class AuthUnauthenticatedState extends AuthState {
